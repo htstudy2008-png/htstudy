@@ -20,7 +20,7 @@
     getDoc
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { onAuthStateChanged } from
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   const db = getFirestore();
 
@@ -30,23 +30,51 @@
       return;
     }
 
-    const userSnap = await getDoc(doc(db, "users", user.uid));
-    const userData = userSnap.data();
+    try {
+      // 1️⃣ Lấy user
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-    const list = document.getElementById("courseList");
-    list.innerHTML = "";
+      if (!userSnap.exists()) {
+        alert("Không tìm thấy dữ liệu người dùng");
+        return;
+      }
 
-    for (const courseId of userData.courses) {
-      const courseSnap = await getDoc(doc(db, "courses", courseId));
-      const course = courseSnap.data();
+      const userData = userSnap.data();
+      const courses = userData.courses || [];
 
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${course.title}</strong><br>
-        <small>${course.desc}</small><br>
-        <a href="course.html?id=${courseId}">Vào học</a>
-      `;
-      list.appendChild(li);
+      const list = document.getElementById("courseList");
+      list.innerHTML = "";
+
+      // 2️⃣ Nếu chưa được cấp khóa
+      if (courses.length === 0) {
+        list.innerHTML = "<li>Bạn chưa được cấp khóa học nào.</li>";
+        return;
+      }
+
+      // 3️⃣ Hiển thị từng khóa
+      for (const courseId of courses) {
+        const courseRef = doc(db, "courses", courseId);
+        const courseSnap = await getDoc(courseRef);
+
+        if (!courseSnap.exists()) {
+          console.warn(`Khóa học ${courseId} không tồn tại`);
+          continue;
+        }
+
+        const course = courseSnap.data();
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${course.title}</strong><br>
+          <small>${course.desc}</small><br>
+          <a href="course.html?id=${courseId}">Vào học</a>
+        `;
+        list.appendChild(li);
+      }
+    } catch (err) {
+      console.error("Lỗi dashboard:", err);
+      alert("Có lỗi khi tải khóa học, mở Console để xem chi tiết");
     }
   });
 </script>
