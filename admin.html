@@ -5,64 +5,79 @@
   <title>Admin Panel</title>
 </head>
 <body>
-
 <h1>🛠 Admin – Cấp quyền khóa học</h1>
-
-<input id="userUid" placeholder="UID học sinh" />
-<input id="courseId" placeholder="ID khóa (vd: math10)" />
-<button onclick="grant()">Cấp quyền</button>
-
-<br><br>
-
-<button onclick="revoke()">Thu hồi quyền</button>
+<div id="studentList"></div>
 <script type="module">
 import { auth, db } from "./js/firebase.js";
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
+  collection,
+  getDocs,
   doc,
-  getDoc,
   updateDoc,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// Kiểm tra admin
 onAuthStateChanged(auth, async (user) => {
-  if (!user) location.href = "login.html";
+  if (!user) return location.href = "login.html";
 
-  const snap = await getDoc(doc(db, "users", user.uid));
-  if (snap.data()?.role !== "admin") {
+  const me = await getDoc(doc(db, "users", user.uid));
+  if (me.data()?.role !== "admin") {
     alert("Bạn không phải admin");
-    location.href = "dashboard.html";
+    return location.href = "dashboard.html";
   }
+
+  loadData();
 });
 
-// CẤP QUYỀN
-window.grant = async () => {
-  const uid = userUid.value.trim();
-  const course = courseId.value.trim();
+async function loadData() {
+  const studentsSnap = await getDocs(collection(db, "users"));
+  const coursesSnap = await getDocs(collection(db, "courses"));
 
-  if (!uid || !course) return alert("Thiếu dữ liệu");
+  const courses = coursesSnap.docs.map(d => d.id);
+  const box = document.getElementById("studentList");
+  box.innerHTML = "";
 
-  await updateDoc(doc(db, "users", uid), {
-    courses: arrayUnion(course)
+  for (const userDoc of studentsSnap.docs) {
+    const u = userDoc.data();
+    if (u.role === "admin") continue;
+
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ccc";
+    div.style.padding = "10px";
+    div.style.marginBottom = "10px";
+
+    div.innerHTML = `<strong>${u.email}</strong><br>`;
+
+    for (const courseId of courses) {
+      const checked = u.courses?.includes(courseId) ? "checked" : "";
+
+      div.innerHTML += `
+        <label>
+          <input type="checkbox"
+            ${checked}
+            onchange="toggleCourse('${userDoc.id}', '${courseId}', this.checked)">
+          ${courseId}
+        </label><br>
+      `;
+    }
+
+    box.appendChild(div);
+  }
+}
+
+window.toggleCourse = async (uid, courseId, checked) => {
+  const ref = doc(db, "users", uid);
+
+  await updateDoc(ref, {
+    courses: checked
+      ? arrayUnion(courseId)
+      : arrayRemove(courseId)
   });
-
-  alert("Đã cấp quyền");
-};
-
-// THU HỒI
-window.revoke = async () => {
-  const uid = userUid.value.trim();
-  const course = courseId.value.trim();
-
-  if (!uid || !course) return alert("Thiếu dữ liệu");
-
-  await updateDoc(doc(db, "users", uid), {
-    courses: arrayRemove(course)
-  });
-
-  alert("Đã thu hồi quyền");
 };
 </script>
 
