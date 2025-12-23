@@ -66,6 +66,72 @@
     // ✅ ĐẾN ĐÂY LÀ ADMIN THẬT
     console.log("ADMIN ACCESS GRANTED");
   });
+  import {
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.createCourse = async function () {
+  const id = document.getElementById("courseId").value.trim();
+  const title = document.getElementById("courseTitle").value.trim();
+  const desc = document.getElementById("courseDesc").value.trim();
+
+  if (!id || !title) {
+    alert("Thiếu ID hoặc tên khóa học");
+    return;
+  }
+
+  await setDoc(doc(db, "courses", id), {
+    title,
+    desc
+  });
+
+  alert("Đã tạo khóa học");
+};
+window.createChapter = async function () {
+  const courseId = document.getElementById("cCourseId").value.trim();
+  const chapterId = document.getElementById("chapterId").value.trim();
+  const title = document.getElementById("chapterTitle").value.trim();
+
+  if (!courseId || !chapterId || !title) {
+    alert("Thiếu dữ liệu chương");
+    return;
+  }
+
+  await setDoc(
+    doc(db, "courses", courseId, "chapters", chapterId),
+    { title }
+  );
+
+  alert("Đã tạo chương");
+};
+window.createLesson = async function () {
+  const courseId = document.getElementById("lCourseId").value.trim();
+  const chapterId = document.getElementById("lChapterId").value.trim();
+  const lessonId = document.getElementById("lessonId").value.trim();
+  const title = document.getElementById("lessonTitle").value.trim();
+  const content = document.getElementById("lessonContent").value.trim();
+
+  if (!courseId || !chapterId || !lessonId || !title) {
+    alert("Thiếu dữ liệu bài học");
+    return;
+  }
+
+  await setDoc(
+    doc(
+      db,
+      "courses",
+      courseId,
+      "chapters",
+      chapterId,
+      "lessons",
+      lessonId
+    ),
+    { title, content }
+  );
+
+  alert("Đã tạo bài học");
+};
+
 </script>
 
 </body>
