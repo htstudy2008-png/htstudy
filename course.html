@@ -13,8 +13,9 @@
 
 <script type="module">
   import { auth, db } from "./js/firebase.js";
-  import { doc, getDoc } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import {
+  doc, getDoc, collection, getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { onAuthStateChanged } from
     "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -48,9 +49,50 @@
     document.getElementById("courseTitle").innerText = course.title;
     document.getElementById("courseDesc").innerText = course.desc;
 
-    // (Tạm thời hiển thị placeholder)
-    document.getElementById("chapterList").innerHTML =
-      "<li>Chương 1 (sắp có)</li>";
+const chapterList = document.getElementById("chapterList");
+chapterList.innerHTML = "";
+
+// 3) Lấy danh sách chương
+const chaptersRef = collection(db, "courses", courseId, "chapters");
+const chaptersSnap = await getDocs(chaptersRef);
+
+if (chaptersSnap.empty) {
+  chapterList.innerHTML = "<li>Khóa học chưa có chương.</li>";
+  return;
+}
+
+for (const chap of chaptersSnap.docs) {
+  const chapData = chap.data();
+  const li = document.createElement("li");
+  li.innerHTML = `<strong>${chapData.title}</strong>`;
+
+  // 4) Lấy bài trong chương
+  const lessonsRef = collection(
+    db, "courses", courseId, "chapters", chap.id, "lessons"
+  );
+  const lessonsSnap = await getDocs(lessonsRef);
+
+  if (!lessonsSnap.empty) {
+    const ul = document.createElement("ul");
+
+    for (const les of lessonsSnap.docs) {
+      const lesData = les.data();
+      const lessonLi = document.createElement("li");
+      lessonLi.innerHTML = `
+        <a href="lesson.html?course=${courseId}&chapter=${chap.id}&lesson=${les.id}">
+          ${lesData.title}
+        </a>
+      `;
+      ul.appendChild(lessonLi);
+    }
+
+    li.appendChild(ul);
+  } else {
+    li.innerHTML += "<div>(Chưa có bài)</div>";
+  }
+
+  chapterList.appendChild(li);
+}
   });
 </script>
 
