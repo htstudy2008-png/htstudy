@@ -15,8 +15,8 @@
   import { logout } from "./js/auth.js";
   import { doc, getDoc } from
     "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { onAuthuthStateChanged } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { onAuthStateChanged } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
