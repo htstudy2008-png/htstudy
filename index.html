@@ -2,65 +2,49 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>H&T Study</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H&T STUDY</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- HEADER -->
 <header class="header">
-  <div class="logo">📘 H&T Study</div>
-  <nav>
-    <a href="login.html" class="btn-outline">Đăng nhập</a>
-  </nav>
+  <div class="logo">🏠 Trang chủ</div>
+
+  <div class="user">
+    <span class="username">Học sinh</span>
+    <img src="https://i.pravatar.cc/40" class="avatar">
+  </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Nền tảng học tập trực tuyến</h1>
-  <p>Học đúng chương trình – đúng trọng tâm – có hệ thống</p>
-  <a href="login.html" class="btn-primary">Bắt đầu học</a>
-</section>
+<!-- MAIN -->
+<div class="container">
 
-<!-- COURSES -->
-<section class="courses">
-  <h2>📚 Khóa học nổi bật</h2>
-  <div class="course-list">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <button class="toggle" onclick="toggleSidebar()">☰</button>
 
-    <div class="course-card">
-      <h3>Toán 10</h3>
-      <p>Toán cơ bản lớp 10 – logic, dễ hiểu</p>
-    </div>
+    <nav>
+      <a href="#">📘 Khóa học</a>
+      <a href="#">📗 Toán 10</a>
+      <a href="#">📕 Toán 11</a>
+      <a href="#" onclick="logout()">⚙ Đăng xuất</a>
+    </nav>
+  </aside>
 
-    <div class="course-card">
-      <h3>Toán 11</h3>
-      <p>Hàm số, lượng giác, dãy số</p>
-    </div>
+  <!-- CONTENT -->
+  <main class="content">
+    <h1>Khóa học của bạn</h1>
+    <p>Chọn khóa học bên trái để bắt đầu.</p>
+  </main>
 
-    <div class="course-card">
-      <h3>Toán 12</h3>
-      <p>Ôn thi tốt nghiệp & đại học</p>
-    </div>
+</div>
 
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features">
-  <h2>✨ Vì sao chọn H&T Study?</h2>
-  <div class="feature-list">
-    <div>📌 Học đúng trọng tâm</div>
-    <div>🔐 Cá nhân hóa theo tài khoản</div>
-    <div>📱 Học mọi lúc mọi nơi</div>
-    <div>🧠 Kiến thức hệ thống</div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <p>© 2025 H&T Study. All rights reserved.</p>
-</footer>
+<script>
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("collapsed");
+  }
+</script>
 
 </body>
 </html>
