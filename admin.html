@@ -6,132 +6,64 @@
 </head>
 <body>
 
-<h1>🛠 Admin Panel</h1>
+<h1>🛠 Admin – Cấp quyền khóa học</h1>
 
-<h2>➕ Tạo khóa học</h2>
-<input id="courseId" placeholder="ID (vd: math11)" />
-<input id="courseTitle" placeholder="Tên khóa học" />
-<input id="courseDesc" placeholder="Mô tả" />
-<button onclick="createCourse()">Tạo khóa học</button>
+<input id="userUid" placeholder="UID học sinh" />
+<input id="courseId" placeholder="ID khóa (vd: math10)" />
+<button onclick="grant()">Cấp quyền</button>
 
-<hr>
+<br><br>
 
-<h2>➕ Tạo chương</h2>
-<input id="cCourseId" placeholder="Course ID" />
-<input id="chapterId" placeholder="Chapter ID (vd: c1)" />
-<input id="chapterTitle" placeholder="Tên chương" />
-<button onclick="createChapter()">Tạo chương</button>
-
-<hr>
-
-<h2>➕ Tạo bài học</h2>
-<input id="lCourseId" placeholder="Course ID" />
-<input id="lChapterId" placeholder="Chapter ID" />
-<input id="lessonId" placeholder="Lesson ID (vd: l1)" />
-<input id="lessonTitle" placeholder="Tên bài" />
-<textarea id="lessonContent" placeholder="Nội dung bài"></textarea>
-<button onclick="createLesson()">Tạo bài</button>
+<button onclick="revoke()">Thu hồi quyền</button>
 <script type="module">
-  import { auth, db } from "./js/firebase.js";
-  import { onAuthStateChanged } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { doc, getDoc } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      alert("Bạn chưa đăng nhập");
-      window.location.href = "login.html";
-      return;
-    }
-
-    const snap = await getDoc(doc(db, "users", user.uid));
-
-    if (!snap.exists()) {
-      alert("Không tìm thấy user");
-      window.location.href = "dashboard.html";
-      return;
-    }
-
-    const data = snap.data();
-
-    console.log("ROLE:", data.role);
-
-    if (data.role !== "admin") {
-      alert("Bạn không phải admin");
-      window.location.href = "dashboard.html";
-      return;
-    }
-
-    // ✅ ĐẾN ĐÂY LÀ ADMIN THẬT
-    console.log("ADMIN ACCESS GRANTED");
-  });
-  import {
-  setDoc
+import { auth, db } from "./js/firebase.js";
+import { onAuthStateChanged } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-window.createCourse = async function () {
-  const id = document.getElementById("courseId").value.trim();
-  const title = document.getElementById("courseTitle").value.trim();
-  const desc = document.getElementById("courseDesc").value.trim();
+onAuthStateChanged(auth, async (user) => {
+  if (!user) location.href = "login.html";
 
-  if (!id || !title) {
-    alert("Thiếu ID hoặc tên khóa học");
-    return;
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (snap.data()?.role !== "admin") {
+    alert("Bạn không phải admin");
+    location.href = "dashboard.html";
   }
+});
 
-  await setDoc(doc(db, "courses", id), {
-    title,
-    desc
+// CẤP QUYỀN
+window.grant = async () => {
+  const uid = userUid.value.trim();
+  const course = courseId.value.trim();
+
+  if (!uid || !course) return alert("Thiếu dữ liệu");
+
+  await updateDoc(doc(db, "users", uid), {
+    courses: arrayUnion(course)
   });
 
-  alert("Đã tạo khóa học");
-};
-window.createChapter = async function () {
-  const courseId = document.getElementById("cCourseId").value.trim();
-  const chapterId = document.getElementById("chapterId").value.trim();
-  const title = document.getElementById("chapterTitle").value.trim();
-
-  if (!courseId || !chapterId || !title) {
-    alert("Thiếu dữ liệu chương");
-    return;
-  }
-
-  await setDoc(
-    doc(db, "courses", courseId, "chapters", chapterId),
-    { title }
-  );
-
-  alert("Đã tạo chương");
-};
-window.createLesson = async function () {
-  const courseId = document.getElementById("lCourseId").value.trim();
-  const chapterId = document.getElementById("lChapterId").value.trim();
-  const lessonId = document.getElementById("lessonId").value.trim();
-  const title = document.getElementById("lessonTitle").value.trim();
-  const content = document.getElementById("lessonContent").value.trim();
-
-  if (!courseId || !chapterId || !lessonId || !title) {
-    alert("Thiếu dữ liệu bài học");
-    return;
-  }
-
-  await setDoc(
-    doc(
-      db,
-      "courses",
-      courseId,
-      "chapters",
-      chapterId,
-      "lessons",
-      lessonId
-    ),
-    { title, content }
-  );
-
-  alert("Đã tạo bài học");
+  alert("Đã cấp quyền");
 };
 
+// THU HỒI
+window.revoke = async () => {
+  const uid = userUid.value.trim();
+  const course = courseId.value.trim();
+
+  if (!uid || !course) return alert("Thiếu dữ liệu");
+
+  await updateDoc(doc(db, "users", uid), {
+    courses: arrayRemove(course)
+  });
+
+  alert("Đã thu hồi quyền");
+};
 </script>
 
 </body>
