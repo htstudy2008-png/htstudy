@@ -9,14 +9,15 @@
 <h1>📘 Khóa học của bạn</h1>
 <ul id="courseList"></ul>
 
-<button onclick="logout()">Đăng xuất</button>
+<button id="logoutBtn">Đăng xuất</button>
+
 <script type="module">
   import { auth, db } from "./js/firebase.js";
   import { logout } from "./js/auth.js";
   import { doc, getDoc } from
     "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { onAuthStateChanged } from
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -48,6 +49,11 @@
       `;
       list.appendChild(li);
     }
+  });
+
+  // ✅ Gắn logout đúng chuẩn ES module
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    logout();
   });
 </script>
 
