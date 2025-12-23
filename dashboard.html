@@ -6,14 +6,50 @@
 </head>
 <body>
 
-  <h1>📘 Dashboard học sinh</h1>
+<h1>📘 Khóa học của bạn</h1>
+<ul id="courseList"></ul>
 
-  <button onclick="logout()">Đăng xuất</button>
+<button onclick="logout()">Đăng xuất</button>
 
-  <script type="module">
-    import { requireAuth } from "./js/auth.js";
-    requireAuth();
-  </script>
+<script type="module">
+  import { auth } from "./js/firebase.js";
+  import { logout } from "./js/auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { onAuthStateChanged } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const db = getFirestore();
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      location.href = "login.html";
+      return;
+    }
+
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const userData = userSnap.data();
+
+    const list = document.getElementById("courseList");
+    list.innerHTML = "";
+
+    for (const courseId of userData.courses) {
+      const courseSnap = await getDoc(doc(db, "courses", courseId));
+      const course = courseSnap.data();
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${course.title}</strong><br>
+        <small>${course.desc}</small><br>
+        <a href="course.html?id=${courseId}">Vào học</a>
+      `;
+      list.appendChild(li);
+    }
+  });
+</script>
 
 </body>
 </html>
