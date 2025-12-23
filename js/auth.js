@@ -20,12 +20,12 @@ window.login = function () {
     });
 };
 
-// Logout (dùng sau)
-window.logout = function () {
+// ✅ EXPORT logout cho dashboard
+export function logout() {
   signOut(auth).then(() => {
     window.location.href = "login.html";
   });
-};
+}
 
 // Kiểm tra đăng nhập
 export function requireAuth() {
