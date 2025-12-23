@@ -45,22 +45,28 @@
       return;
     }
 
-    try {
-      const snap = await getDoc(doc(db, "users", user.uid));
+    const snap = await getDoc(doc(db, "users", user.uid));
 
-      if (!snap.exists()) {
-        alert("Không tìm thấy user trong Firestore");
-        window.location.href = "dashboard.html";
-        return;
-      }
+    if (!snap.exists()) {
+      alert("Không tìm thấy user");
+      window.location.href = "dashboard.html";
+      return;
+    }
 
-      const data = snap.data();
+    const data = snap.data();
 
-      if (data.role !== "admin") {
-        alert("Bạn không phải admin");
-        window.location.href = "dashboard.html";
-        return;
-      }
+    console.log("ROLE:", data.role);
+
+    if (data.role !== "admin") {
+      alert("Bạn không phải admin");
+      window.location.href = "dashboard.html";
+      return;
+    }
+
+    // ✅ ĐẾN ĐÂY LÀ ADMIN THẬT
+    console.log("ADMIN ACCESS GRANTED");
+  });
+</script>
 
 </body>
 </html>
