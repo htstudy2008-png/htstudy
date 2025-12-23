@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Khóa học</title>
+</head>
+<body>
+
+<h1 id="courseTitle"></h1>
+<p id="courseDesc"></p>
+
+<ul id="chapterList"></ul>
+
+<script type="module">
+  import { auth, db } from "./js/firebase.js";
+  import { doc, getDoc } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { onAuthStateChanged } from
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const params = new URLSearchParams(window.location.search);
+  const courseId = params.get("id");
+
+  if (!courseId) {
+    alert("Thiếu ID khóa học");
+    location.href = "dashboard.html";
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      location.href = "login.html";
+      return;
+    }
+
+    // 1) Kiểm tra quyền
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const courses = userSnap.data()?.courses || [];
+    if (!courses.includes(courseId)) {
+      alert("Bạn không có quyền truy cập khóa học này");
+      location.href = "dashboard.html";
+      return;
+    }
+
+    // 2) Lấy thông tin khóa học
+    const courseSnap = await getDoc(doc(db, "courses", courseId));
+    const course = courseSnap.data();
+
+    document.getElementById("courseTitle").innerText = course.title;
+    document.getElementById("courseDesc").innerText = course.desc;
+
+    // (Tạm thời hiển thị placeholder)
+    document.getElementById("chapterList").innerHTML =
+      "<li>Chương 1 (sắp có)</li>";
+  });
+</script>
+
+</body>
+</html>
