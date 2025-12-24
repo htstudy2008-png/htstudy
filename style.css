@@ -101,3 +101,49 @@ body {
 .content {
   padding: 24px;
 }
+/* ===== AVATAR DROPDOWN ===== */
+.avatar-box {
+  position: relative;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.avatar-menu {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  background: #fff;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 2000;
+}
+
+.avatar-menu a {
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+}
+
+.avatar-menu a:hover {
+  background: #f1f5f9;
+}
+
+.avatar-menu hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 4px 0;
+}
+
+.avatar-menu.active {
+  display: flex;
+}
