@@ -369,3 +369,48 @@ body {
     0 0 0 2px rgba(56,189,248,0.4),
     0 0 16px rgba(56,189,248,0.4);
 }
+.sidebar {
+  background: linear-gradient(
+    180deg,
+    #020617,
+    #020617
+  );
+  border-right: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    8px 0 40px rgba(0,0,0,0.7);
+
+  backdrop-filter: blur(12px);
+}
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(56,189,248,0.5),
+    transparent
+  );
+}
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(56,189,248,0.5),
+    transparent
+  );
+}
+:root {
+  --bg-sidebar: #020617;
+  --bg-main: #050b1a; /* nền sáng hơn sidebar 1 chút */
+}
