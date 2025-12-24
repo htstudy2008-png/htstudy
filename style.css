@@ -455,3 +455,12 @@ body {
   color: var(--accent);
   box-shadow: 0 0 18px rgba(56,189,248,0.8);
 }
+.header-left {
+  background: linear-gradient(
+    to right,
+    rgba(56,189,248,0.12),
+    transparent
+  );
+  padding: 6px 14px;
+  border-radius: 14px;
+}
