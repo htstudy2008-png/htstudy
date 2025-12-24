@@ -279,10 +279,7 @@ body {
     0 0 12px rgba(56,189,248,0.25);
 }
 
-/* CONTENT */
-.content {
-  background: var(--bg-main);
-}
+
 /* ===== APPLY DARK THEME ===== */
 body {
   background: var(--bg-main);
@@ -413,4 +410,31 @@ body {
 :root {
   --bg-sidebar: #020617;
   --bg-main: #050b1a; /* nền sáng hơn sidebar 1 chút */
+}
+body {
+  background: radial-gradient(
+    circle at top,
+    #0b1220 0%,
+    #020617 60%,
+    #000 100%
+  );
+  color: #e5e7eb;
+}
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+  max-width: 900px;
+  margin: 40px auto;
+}
+.card h1 {
+  color: #f8fafc;
+}
+
+.card p {
+  color: #cbd5f5;
 }
