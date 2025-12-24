@@ -68,13 +68,13 @@ body {
 .avatar-box {
   position: relative;
 }
-
 .avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid #e5e7eb;
+  border: 2px solid rgba(56,189,248,0.4);
+  box-shadow: 0 0 14px rgba(56,189,248,0.35);
 }
 
 /* ===== AVATAR MENU ===== */
@@ -172,19 +172,26 @@ body {
 }
 
 .card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: linear-gradient(
+    180deg,
+    rgba(17,24,39,0.85),
+    rgba(2,6,23,0.85)
+  );
+  border-radius: 22px;
+  padding: 32px;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
 }
-
 .card h1 {
   font-size: 28px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  color: #f8fafc;
 }
 
 .card p {
-  color: #475569;
+  color: var(--text-muted);
 }
 
 /* ===== THEME XANH ĐEN HIỆN ĐẠI ===== */
@@ -203,9 +210,21 @@ body {
 
 /* HEADER */
 .header {
-  background: var(--bg-header);
-  color: var(--text-main);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    180deg,
+    rgba(15,23,42,0.85),
+    rgba(2,6,23,0.85)
+  );
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
 }
 
 /* LINK HEADER */
@@ -223,9 +242,16 @@ body {
 
 .header-right a.active {
   color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: 0 0 12px rgba(56,189,248,0.5);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.25),
+    rgba(56,189,248,0.05)
+  );
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,0.35),
+    0 0 18px rgba(56,189,248,0.45);
 }
+
 
 /* SIDEBAR */
 .sidebar {
@@ -243,8 +269,14 @@ body {
 
 .sidebar nav a.active {
   color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: inset 4px 0 0 var(--accent);
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,0.25),
+    rgba(56,189,248,0.05)
+  );
+  box-shadow:
+    inset 4px 0 0 var(--accent),
+    0 0 12px rgba(56,189,248,0.25);
 }
 
 /* CONTENT */
@@ -255,4 +287,25 @@ body {
 body {
   background: var(--bg-main);
   color: var(--text-main);
+}
+body {
+  min-height: 100vh;
+  background: radial-gradient(
+      1200px 600px at 20% -10%,
+      rgba(56,189,248,0.15),
+      transparent 40%
+    ),
+    radial-gradient(
+      800px 400px at 80% 10%,
+      rgba(99,102,241,0.12),
+      transparent 45%
+    ),
+    linear-gradient(180deg, #020617 0%, #0b1220 100%);
+  color: var(--text-main);
+}
+.logo {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.4px;
+  color: #e5e7eb;
 }
