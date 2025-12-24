@@ -251,3 +251,8 @@ body {
 .content {
   background: var(--bg-main);
 }
+/* ===== APPLY DARK THEME ===== */
+body {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
