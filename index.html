@@ -9,18 +9,16 @@
 
 <!-- HEADER -->
 <header class="header">
-  <!-- LEFT -->
   <div class="header-left">
     <button class="menu-btn" onclick="toggleSidebar()">☰</button>
     <span class="logo">H&T STUDY</span>
   </div>
 
-  <!-- RIGHT -->
   <div class="header-right">
     <a href="index.html" class="home-link">Trang chủ</a>
 
     <div class="avatar-box" onclick="toggleAvatarMenu(event)">
-      <img src="https://i.pravatar.cc/40" class="avatar">
+      <img src="https://i.pravatar.cc/100" class="avatar">
 
       <div class="avatar-menu" id="avatarMenu">
         <a href="#">👤 Hồ sơ</a>
@@ -32,43 +30,39 @@
   </div>
 </header>
 
-
-<!-- MAIN -->
-<div class="container">
-
-  <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar">
   <nav>
     <a href="#">📘 Khóa học</a>
     <a href="#">📗 Toán 10</a>
     <a href="#">📕 Toán 11</a>
-    <a href="#" onclick="logout()">⚙ Đăng xuất</a>
   </nav>
-</aside>
+</div>
 
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-  <!-- CONTENT -->
-  <main class="content">
+<main class="content">
+  <div class="card">
     <h1>Khóa học của bạn</h1>
     <p>Chọn khóa học bên trái để bắt đầu.</p>
-  </main>
-
-</div>
+  </div>
+</main>
 <script>
   function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("active");
     document.getElementById("overlay").classList.toggle("active");
   }
-</script>
-<script>
+
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+  }
+
   function toggleAvatarMenu(e) {
     e.stopPropagation();
     document.getElementById("avatarMenu").classList.toggle("active");
   }
 
-  // Click ra ngoài thì đóng menu
-  document.addEventListener("click", function () {
+  document.addEventListener("click", () => {
     document.getElementById("avatarMenu").classList.remove("active");
   });
 </script>
