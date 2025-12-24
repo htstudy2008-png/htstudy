@@ -186,3 +186,17 @@ body {
 .card p {
   color: #475569;
 }
+
+/* ===== COLOR THEME ===== */
+:root {
+  -bg-main: #0b1220;          /* xanh đen nền */
+  -bg-card: #111827;
+  -bg-header: rgba(15,23,42,0.85);
+  -bg-sidebar: #020617;
+
+  -text-main: #e5e7eb;
+  -text-muted: #94a3b8;
+
+  -accent: #38bdf8;           /* xanh phát sáng */
+  -accent-soft: rgba(56,189,248,0.15);
+}
