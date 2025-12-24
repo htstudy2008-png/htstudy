@@ -187,16 +187,67 @@ body {
   color: #475569;
 }
 
-/* ===== COLOR THEME ===== */
+/* ===== THEME XANH ĐEN HIỆN ĐẠI ===== */
 :root {
-  -bg-main: #0b1220;          /* xanh đen nền */
-  -bg-card: #111827;
-  -bg-header: rgba(15,23,42,0.85);
-  -bg-sidebar: #020617;
+  --bg-main: #0b1220;
+  --bg-card: #111827;
+  --bg-header: rgba(15,23,42,0.85);
+  --bg-sidebar: #020617;
 
-  -text-main: #e5e7eb;
-  -text-muted: #94a3b8;
+  --text-main: #e5e7eb;
+  --text-muted: #94a3b8;
 
-  -accent: #38bdf8;           /* xanh phát sáng */
-  -accent-soft: rgba(56,189,248,0.15);
+  --accent: #38bdf8;
+  --accent-soft: rgba(56,189,248,0.15);
+}
+
+/* HEADER */
+.header {
+  background: var(--bg-header);
+  color: var(--text-main);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* LINK HEADER */
+.header-right a {
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.header-right a:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.header-right a.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 12px rgba(56,189,248,0.5);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--bg-sidebar);
+}
+
+.sidebar nav a {
+  color: var(--text-muted);
+}
+
+.sidebar nav a:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.sidebar nav a.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+
+/* CONTENT */
+.content {
+  background: var(--bg-main);
 }
