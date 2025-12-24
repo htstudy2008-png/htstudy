@@ -12,15 +12,15 @@ body {
 /* ===== HEADER ===== */
 .header {
   height: 60px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
 }
 
-.header .left {
+.header-left {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -33,25 +33,67 @@ body {
   cursor: pointer;
 }
 
-.brand {
+.logo {
   font-weight: bold;
   font-size: 18px;
 }
 
-.header .right {
+.header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
+
 .home-link {
   text-decoration: none;
-  color: #333;
+  color: #111;
+  font-weight: 500;
+}
+
+/* ===== AVATAR DROPDOWN ===== */
+.avatar-box {
+  position: relative;
+  cursor: pointer;
 }
 
 .avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
+}
+
+.avatar-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.avatar-menu a {
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+}
+
+.avatar-menu a:hover {
+  background: #f1f5f9;
+}
+
+.avatar-menu hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 4px 0;
+}
+
+.avatar-menu.active {
+  display: flex;
 }
 
 /* ===== SIDEBAR ===== */
