@@ -15,9 +15,20 @@
   </div>
 
   <div class="right">
-    <a href="index.html" class="home-link">Trang chủ</a>
+  <a href="index.html" class="home-link">Trang chủ</a>
+
+  <div class="avatar-box" onclick="toggleAvatarMenu(event)">
     <img src="https://i.pravatar.cc/40" class="avatar">
+
+    <div class="avatar-menu" id="avatarMenu">
+      <a href="#">👤 Hồ sơ</a>
+      <a href="#">📘 Khóa học của tôi</a>
+      <hr>
+      <a href="#" onclick="logout()">🚪 Đăng xuất</a>
+    </div>
   </div>
+</div>
+
 </header>
 
 
@@ -48,6 +59,17 @@
     document.getElementById("sidebar").classList.toggle("active");
     document.getElementById("overlay").classList.toggle("active");
   }
+</script>
+<script>
+  function toggleAvatarMenu(e) {
+    e.stopPropagation();
+    document.getElementById("avatarMenu").classList.toggle("active");
+  }
+
+  // Click ra ngoài thì đóng menu
+  document.addEventListener("click", function () {
+    document.getElementById("avatarMenu").classList.remove("active");
+  });
 </script>
 
 </body>
