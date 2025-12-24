@@ -1,77 +1,78 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: Inter, Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  margin: 0;
-  background: #f4f6f8;
+  background: #f5f6fa;
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 .header {
   height: 60px;
-  background: #ffffff;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10;
+  padding: 0 16px;
 }
 
-.logo {
-  font-weight: 600;
+.header .left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-.user {
+.brand {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.header .right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
+}
+
+.home-link {
+  text-decoration: none;
+  color: #333;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
 }
 
-/* LAYOUT */
-.container {
-  display: flex;
-  margin-top: 60px;
-}
-
-/* SIDEBAR */
+/* ===== SIDEBAR ===== */
 .sidebar {
-  width: 220px;
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100vh;
   background: #1f2937;
   color: #fff;
-  min-height: calc(100vh - 60px);
-  transition: width 0.3s;
-}
-
-.sidebar.collapsed {
-  width: 60px;
-}
-
-.sidebar .toggle {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  padding: 15px;
-  cursor: pointer;
+  padding-top: 60px;
+  transition: 0.3s;
+  z-index: 1000;
 }
 
 .sidebar nav a {
   display: block;
-  padding: 15px 20px;
-  color: #cbd5e1;
+  padding: 14px 20px;
+  color: #ddd;
   text-decoration: none;
 }
 
@@ -80,8 +81,24 @@ body {
   color: #fff;
 }
 
-/* CONTENT */
+.sidebar.active {
+  left: 0;
+}
+
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 999;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* ===== CONTENT ===== */
 .content {
-  flex: 1;
-  padding: 30px;
+  padding: 24px;
 }
