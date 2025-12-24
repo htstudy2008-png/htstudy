@@ -309,3 +309,63 @@ body {
   letter-spacing: 0.4px;
   color: #e5e7eb;
 }
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(15,23,42,0.9),
+    rgba(2,6,23,0.9)
+  );
+  border-radius: 22px;
+  padding: 36px;
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+}
+.card h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #f8fafc;
+}
+
+.card p {
+  color: #94a3b8;
+}
+.content {
+  position: relative;
+  padding: 48px 32px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.content::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(56,189,248,0.18),
+    transparent 60%
+  );
+  z-index: -1;
+}
+.logo {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.6px;
+  color: #f8fafc;
+}
+
+.header-right a {
+  font-size: 14px;
+  font-weight: 500;
+}
+.avatar {
+  box-shadow:
+    0 0 0 2px rgba(56,189,248,0.4),
+    0 0 16px rgba(56,189,248,0.4);
+}
