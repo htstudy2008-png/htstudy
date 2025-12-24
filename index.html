@@ -9,28 +9,32 @@
 
 <!-- HEADER -->
 <header class="header">
-  <div class="logo">🏠 Trang chủ</div>
+  <div class="left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <span class="brand">H&T STUDY</span>
+  </div>
 
-  <div class="user">
-    <span class="username">Học sinh</span>
+  <div class="right">
+    <a href="index.html" class="home-link">Trang chủ</a>
     <img src="https://i.pravatar.cc/40" class="avatar">
   </div>
 </header>
+
 
 <!-- MAIN -->
 <div class="container">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <button class="toggle" onclick="toggleSidebar()">☰</button>
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <a href="#">📘 Khóa học</a>
+    <a href="#">📗 Toán 10</a>
+    <a href="#">📕 Toán 11</a>
+    <a href="#" onclick="logout()">⚙ Đăng xuất</a>
+  </nav>
+</aside>
 
-    <nav>
-      <a href="#">📘 Khóa học</a>
-      <a href="#">📗 Toán 10</a>
-      <a href="#">📕 Toán 11</a>
-      <a href="#" onclick="logout()">⚙ Đăng xuất</a>
-    </nav>
-  </aside>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
   <!-- CONTENT -->
   <main class="content">
