@@ -111,39 +111,5 @@ function getInitials(name) {
     .toUpperCase();
 }
 </script>
-<script>
-/* ===== AVATAR CHỮ VIẾT TẮT ===== */
-
-// TẠM GIẢ LẬP TÊN (sau này thay bằng Firebase)
-const fullName = "H T Study"; 
-
-const avatarBox = document.getElementById("avatarBox");
-const avatarText = document.getElementById("avatarText");
-const loginBtn = document.getElementById("loginBtn");
-
-// Hàm lấy chữ viết tắt
-function getInitials(name) {
-  return name
-    .trim()
-    .split(" ")
-    .map(word => word[0])
-    .join("")
-    .substring(0, 2)
-    .toUpperCase();
-}
-
-// GIẢ LẬP ĐÃ ĐĂNG NHẬP
-const isLoggedIn = true;
-
-if (isLoggedIn) {
-  avatarBox.style.display = "flex";
-  loginBtn.style.display = "none";
-  avatarText.textContent = getInitials(fullName);
-} else {
-  avatarBox.style.display = "none";
-  loginBtn.style.display = "inline-block";
-}
-</script>
-
 </body>
 </html>
