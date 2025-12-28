@@ -27,12 +27,12 @@
     <div class="avatar-text" id="avatarText"></div>
 
     <div class="avatar-menu" id="avatarMenu">
-      <a href="profile.html">👤 Hồ sơ</a>
-      <a href="#">📘 Khóa học của tôi</a>
-      <hr>
-      <a href="#" id="authAction">🔐 Đăng nhập</a>
+  <a href="profile.html" id="profileLink">👤 Hồ sơ</a>
+  <a href="#" id="myCourses">📘 Khóa học của tôi</a>
+  <hr>
+  <a href="#" id="authAction">🔐 Đăng nhập</a>
+</div>
 
-    </div>
   </div>
 </div>
 
@@ -78,6 +78,8 @@ function toggleSidebar() {
 import { auth } from "./js/firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+const profileLink = document.getElementById("profileLink");
+const myCourses = document.getElementById("myCourses");
 const loginBtn = document.getElementById("loginBtn");
 const avatarBox = document.getElementById("avatarBox");
 const avatarText = document.getElementById("avatarText");
@@ -94,10 +96,12 @@ onAuthStateChanged(auth, (user) => {
     avatarBox.style.display = "flex";
     loginBtn.style.display = "none";
 
-    const name = user.displayName || user.email;
-    avatarText.textContent = getInitials(name);
-
+    avatarText.textContent = getInitials(user.displayName || user.email);
     authAction.textContent = "🚪 Đăng xuất";
+
+    // 👉 HIỆN MENU SAU LOGIN
+    profileLink.style.display = "block";
+    myCourses.style.display = "block";
 
   } else {
     // ❌ CHƯA ĐĂNG NHẬP
@@ -107,8 +111,13 @@ onAuthStateChanged(auth, (user) => {
     loginBtn.style.display = "inline-block";
 
     authAction.textContent = "🔐 Đăng nhập";
+
+    // 👉 ẨN MENU CẦN LOGIN
+    profileLink.style.display = "none";
+    myCourses.style.display = "none";
   }
 });
+
 
 /* XỬ LÝ CLICK ĐĂNG NHẬP / ĐĂNG XUẤT */
 authAction.addEventListener("click", async (e) => {
