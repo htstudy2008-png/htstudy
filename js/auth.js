@@ -28,11 +28,11 @@ window.login = async function () {
     );
 
     // 👤 CẬP NHẬT HỌ TÊN
-    if (fullName) {
-      await updateProfile(userCredential.user, {
-        displayName: fullName
-      });
-    }
+    if (!user.displayName && fullName) {
+  await updateProfile(user, {
+    displayName: fullName
+  });
+}
 
     // 🔁 QUAY LẠI TRANG TRƯỚC
     const redirect = localStorage.getItem("redirectAfterLogin");
