@@ -1,17 +1,16 @@
-import { updateProfile } from
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 import { auth } from "./firebase.js";
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 /* =======================
    ĐĂNG NHẬP
 ======================= */
-window.login = function () {
+window.login = async function () {
+  const fullName = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
@@ -20,33 +19,36 @@ window.login = function () {
     return;
   }
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      // 🔑 LẤY TRANG CẦN QUAY LẠI
-      const redirect = localStorage.getItem("redirectAfterLogin");
+  try {
+    // 🔐 ĐĂNG NHẬP
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-      if (redirect) {
-        localStorage.removeItem("redirectAfterLogin");
-        window.location.href = redirect;
-      } else {
-        // 👉 TRANG MẶC ĐỊNH
-        window.location.href = "index.html";
-      }
-    })
-    .catch((error) => {
-      alert("Sai email hoặc mật khẩu");
-      console.error(error);
-    });
+    // 👤 CẬP NHẬT HỌ TÊN
+    if (fullName) {
+      await updateProfile(userCredential.user, {
+        displayName: fullName
+      });
+    }
+
+    // 🔁 QUAY LẠI TRANG TRƯỚC
+    const redirect = localStorage.getItem("redirectAfterLogin");
+
+    if (redirect) {
+      localStorage.removeItem("redirectAfterLogin");
+      window.location.href = redirect;
+    } else {
+      window.location.href = "index.html";
+    }
+
+  } catch (error) {
+    alert("Sai email hoặc mật khẩu");
+    console.error(error);
+  }
 };
-
-/* =======================
-   ĐĂNG XUẤT
-======================= */
-export function logout() {
-  signOut(auth).then(() => {
-    window.location.href = "login.html";
-  });
-}
 
 /* =======================
    BẢO VỆ TRANG (OPTIONAL)
