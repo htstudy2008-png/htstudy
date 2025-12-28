@@ -1,21 +1,35 @@
 import { auth } from "./firebase.js";
-import { onAuthStateChanged } from
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { db } from "./firebase.js";
 
 const fullNameEl = document.getElementById("fullName");
 const emailEl = document.getElementById("email");
 const uidEl = document.getElementById("uid");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    // ❌ Chưa đăng nhập → quay về login
     localStorage.setItem("redirectAfterLogin", window.location.href);
     window.location.href = "login.html";
     return;
   }
 
-  // ✅ Đã đăng nhập → hiển thị hồ sơ
-  fullNameEl.textContent = user.displayName || "Chưa cập nhật";
+  // 🔥 LẤY HỒ SƠ TỪ FIRESTORE
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (snap.exists()) {
+    const data = snap.data();
+    fullNameEl.textContent = data.fullName || "Chưa cập nhật";
+  } else {
+    fullNameEl.textContent = "Chưa có hồ sơ";
+  }
+
   emailEl.textContent = user.email;
   uidEl.textContent = user.uid;
 });
