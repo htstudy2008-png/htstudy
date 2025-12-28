@@ -30,7 +30,7 @@
       <a href="#">👤 Hồ sơ</a>
       <a href="#">📘 Khóa học của tôi</a>
       <hr>
-      <a href="#" onclick="logout()">🚪 Đăng xuất</a>
+      <a href="#" id="logoutBtn">🚪 Đăng xuất</a>
     </div>
   </div>
 </div>
@@ -78,7 +78,13 @@ import { auth } from "./js/firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const avatarBox = document.getElementById("avatarBox");
-const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn?.addEventListener("click", (e) => {
+  e.preventDefault();
+  signOut(auth);
+});
+
 const avatarText = document.getElementById("avatarText");
 
 onAuthStateChanged(auth, (user) => {
