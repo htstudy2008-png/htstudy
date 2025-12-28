@@ -87,17 +87,20 @@ let isLoggedIn = false;
 /* THEO DÕI TRẠNG THÁI LOGIN */
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    isLoggedIn = true;
+    // ✅ ĐÃ ĐĂNG NHẬP
     avatarBox.style.display = "flex";
-    avatarText.textContent = getInitials(user.displayName || user.email);
-    authAction.textContent = "🚪 Đăng xuất";
+    loginBtn.style.display = "none";
+
+    const name = user.displayName || user.email;
+    avatarText.textContent = getInitials(name);
+
   } else {
-    isLoggedIn = false;
-    avatarBox.style.display = "flex";   // vẫn cho bấm avatar
-    avatarText.textContent = "?";
-    authAction.textContent = "🔐 Đăng nhập";
+    // ❌ CHƯA ĐĂNG NHẬP
+    avatarBox.style.display = "none";
+    loginBtn.style.display = "inline-block";
   }
 });
+
 
 /* XỬ LÝ CLICK ĐĂNG NHẬP / ĐĂNG XUẤT */
 authAction.addEventListener("click", async (e) => {
