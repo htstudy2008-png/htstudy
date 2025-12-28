@@ -31,6 +31,7 @@
       <a href="#">📘 Khóa học của tôi</a>
       <hr>
       <a href="#" id="logoutBtn">🚪 Đăng xuất</a>
+
     </div>
   </div>
 </div>
@@ -80,10 +81,12 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 const avatarBox = document.getElementById("avatarBox");
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn?.addEventListener("click", (e) => {
+logoutBtn?.addEventListener("click", async (e) => {
   e.preventDefault();
-  signOut(auth);
+  await signOut(auth);
+  window.location.href = "login.html";
 });
+
 
 const avatarText = document.getElementById("avatarText");
 
