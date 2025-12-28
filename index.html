@@ -89,20 +89,19 @@ const avatarText = document.getElementById("avatarText");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // Đã đăng nhập
+    // ĐÃ ĐĂNG NHẬP
     avatarBox.style.display = "flex";
     loginBtn.style.display = "none";
 
-    // Lấy chữ viết tắt tên
     const name = user.displayName || user.email;
     avatarText.textContent = getInitials(name);
 
   } else {
-    // Chưa đăng nhập
-    avatarBox.style.display = "none";
-    loginBtn.style.display = "inline-block";
+    // ❌ CHƯA ĐĂNG NHẬP → ĐÁ SANG LOGIN
+    window.location.href = "login.html";
   }
 });
+
 
 function logout() {
   signOut(auth);
