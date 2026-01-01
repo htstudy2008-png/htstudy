@@ -3,22 +3,20 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { db } from "./firebase.js";
-
+import { signOut } from
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { auth } from "./firebase.js";
+export async function logout() {
+  await signOut(auth);
+  window.location.href = "login.html";
+}
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { signOut } from
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { auth } from "./firebase.js";
 
-export async function logout() {
-  await signOut(auth);
-  window.location.href = "login.html";
-}
 
 /* =======================
    ĐĂNG NHẬP
