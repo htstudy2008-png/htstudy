@@ -67,49 +67,67 @@ document.addEventListener("click", () => {
 });
 </script>
 <script type="module">
-  import { auth, db } from "./js/firebase.js";
-  import { logout } from "./js/auth.js";
-  import { doc, getDoc } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { onAuthStateChanged } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth, db } from "./js/firebase.js";
+import { onAuthStateChanged, signOut } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, getDoc } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      location.href = "login.html";
-      return;
-    }
+const loginBtn = document.getElementById("loginBtn");
+const avatarBox = document.getElementById("avatarBox");
+const avatarText = document.getElementById("avatarText");
+const authAction = document.getElementById("authAction");
+const courseList = document.getElementById("courseList");
 
-    const list = document.getElementById("courseList");
-    list.innerHTML = "";
+let isLoggedIn = false;
 
-    const userSnap = await getDoc(doc(db, "users", user.uid));
-    const courses = userSnap.data()?.courses || [];
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    localStorage.setItem("redirectAfterLogin", window.location.href);
+    location.href = "login.html";
+    return;
+  }
 
-    if (courses.length === 0) {
-      list.innerHTML = "<li>Bạn chưa được cấp khóa học nào.</li>";
-      return;
-    }
+  isLoggedIn = true;
+  loginBtn.style.display = "none";
+  avatarBox.style.display = "flex";
+  avatarText.textContent = getInitials(user.displayName || user.email);
 
-    for (const courseId of courses) {
-      const courseSnap = await getDoc(doc(db, "courses", courseId));
-      if (!courseSnap.exists()) continue;
+  // LOAD COURSES
+  courseList.innerHTML = "";
+  const snap = await getDoc(doc(db, "users", user.uid));
+  const courses = snap.data()?.courses || [];
 
-      const c = courseSnap.data();
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <strong>${c.title}</strong><br>
-        <small>${c.desc}</small><br>
-        <a href="course.html?id=${courseId}">Vào học</a>
-      `;
-      list.appendChild(li);
-    }
-  });
+  if (courses.length === 0) {
+    courseList.innerHTML = "<li>Bạn chưa được cấp khóa học nào.</li>";
+    return;
+  }
 
-  // ✅ Gắn logout đúng chuẩn ES module
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    logout();
-  });
+  for (const id of courses) {
+    const cSnap = await getDoc(doc(db, "courses", id));
+    if (!cSnap.exists()) continue;
+
+    const c = cSnap.data();
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <strong>${c.title}</strong>
+      <p>${c.desc}</p>
+      <a href="course.html?id=${id}">Vào học</a>
+    `;
+    courseList.appendChild(li);
+  }
+});
+
+authAction.addEventListener("click", async (e) => {
+  e.preventDefault();
+  if (isLoggedIn) {
+    await signOut(auth);
+  }
+});
+
+function getInitials(name) {
+  return name.split(" ").map(w => w[0]).join("").substring(0,2).toUpperCase();
+}
 </script>
 
 </body>
