@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Hồ sơ học sinh</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
@@ -14,32 +15,39 @@
 </header>
 
 <main class="content">
-  <div class="card profile-card">
-    <h2>👤 Hồ sơ học sinh</h2>
-
-    <div class="profile-row">
-      <span>Họ và tên:</span>
-      <strong id="fullName">—</strong>
+<div class="profile-wrapper">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar">👤</div>
+      <div>
+        <h2>Hồ sơ học sinh</h2>
+        <span class="status online">● Đã đăng nhập</span>
+      </div>
     </div>
 
-    <div class="profile-row">
-      <span>Email:</span>
-      <strong id="email">—</strong>
+    <div class="profile-info">
+      <div class="row">
+        <span class="label">Họ và tên</span>
+        <span class="value" id="fullName">Chưa cập nhật</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Email</span>
+        <span class="value" id="email">---</span>
+      </div>
+
+      <div class="row">
+        <span class="label">ID học sinh</span>
+        <span class="value mono" id="uid">---</span>
+      </div>
     </div>
 
-    <div class="profile-row">
-      <span>ID học sinh:</span>
-      <strong id="uid">—</strong>
+    <div class="profile-actions">
+      <a href="index.html" class="btn secondary">← Quay lại trang chủ</a>
     </div>
-
-    <div class="profile-row">
-      <span>Trạng thái:</span>
-      <strong class="status">Đã đăng nhập</strong>
-    </div>
-
-    <br>
-    <a href="index.html">⬅ Quay lại trang chủ</a>
   </div>
+</div>
+
 </main>
 
 <script type="module" src="js/profile.js"></script>
