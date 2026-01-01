@@ -228,9 +228,12 @@ onAuthStateChanged(auth, async (user) => {
     const chapterDiv = document.createElement("div");
     chapterDiv.className = "chapter";
 
-    chapterDiv.innerHTML = `
-      <div class="chapter-title">${chapData.title}</div>
-    `;
+   chapterDiv.innerHTML = `
+  <div class="chapter-title chapter-parent" style="cursor:pointer;">
+    ▶ ${chapData.title}
+  </div>
+`;
+
 
     const lessonsRef = collection(
       db, "courses", courseId, "chapters", chap.id, "lessons"
@@ -238,8 +241,19 @@ onAuthStateChanged(auth, async (user) => {
     const lessonsSnap = await getDocs(lessonsRef);
 
     if (!lessonsSnap.empty) {
-      const ul = document.createElement("ul");
-      ul.className = "lesson-list";
+const ul = document.createElement("ul");
+ul.className = "lesson-list sub-lessons";
+const chapterParent = chapterDiv.querySelector(".chapter-parent");
+
+chapterParent.addEventListener("click", () => {
+  const isOpen = ul.classList.contains("open");
+
+  ul.classList.toggle("open");
+
+  chapterParent.innerText =
+    (isOpen ? "▶ " : "▼ ") + chapData.title;
+});
+
 
       for (const les of lessonsSnap.docs) {
   const lesData = les.data();
