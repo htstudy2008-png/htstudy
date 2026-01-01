@@ -219,15 +219,49 @@ onAuthStateChanged(auth, async (user) => {
       ul.className = "lesson-list";
 
       for (const les of lessonsSnap.docs) {
-        const lesData = les.data();
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <a href="lesson.html?course=${courseId}&chapter=${chap.id}&lesson=${les.id}">
-            ▶ ${lesData.title}
-          </a>
-        `;
-        ul.appendChild(li);
-      }
+  const lesData = les.data();
+
+  // 👉 BÀI CHA (BÀI 1)
+  const li = document.createElement("li");
+  li.innerHTML = `<strong>${lesData.title}</strong>`;
+  ul.appendChild(li);
+
+  // 👉 SUB LESSONS (BÀI 1.1, 1.2)
+  const subRef = collection(
+    db,
+    "courses", courseId,
+    "chapters", chap.id,
+    "lessons", les.id,
+    "subLessons"
+  );
+
+  const subSnap = await getDocs(subRef);
+
+  if (!subSnap.empty) {
+    const subUl = document.createElement("ul");
+    subUl.style.marginLeft = "20px";
+    subUl.style.marginTop = "6px";
+
+    for (const sub of subSnap.docs) {
+      const subData = sub.data();
+      const subLi = document.createElement("li");
+
+      subLi.innerHTML = `
+        <a href="lesson.html
+          ?course=${courseId}
+          &chapter=${chap.id}
+          &lesson=${les.id}
+          &sub=${sub.id}">
+          ▸ ${subData.title}
+        </a>
+      `;
+
+      subUl.appendChild(subLi);
+    }
+
+    li.appendChild(subUl);
+  }
+}
 
       chapterDiv.appendChild(ul);
     } else {
