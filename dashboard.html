@@ -2,16 +2,70 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Khóa học của tôi | H&T STUDY</title>
   <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header class="header">
+  <div class="header-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <span class="logo">H&T STUDY</span>
+  </div>
 
+  <div class="header-right">
+    <a href="index.html" class="home-link">Trang chủ</a>
+
+    <a href="login.html" id="loginBtn" class="login-btn">Đăng nhập</a>
+
+    <div class="avatar-box" id="avatarBox" style="display:none;" onclick="toggleAvatarMenu(event)">
+      <div class="avatar-text" id="avatarText"></div>
+
+      <div class="avatar-menu" id="avatarMenu">
+        <a href="profile.html">👤 Hồ sơ</a>
+        <a href="dashboard.html">📘 Khóa học của tôi</a>
+        <hr>
+        <a href="#" id="authAction">🚪 Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</header>
+  <div class="sidebar" id="sidebar">
+  <nav>
+    <a href="dashboard.html" class="active">📘 Khóa học của tôi</a>
+    <a href="#">📗 Toán 10</a>
+    <a href="#">📕 Toán 11</a>
+  </nav>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <main class="content">
+  <div class="card">
 <h1>📘 Khóa học của bạn</h1>
 <ul id="courseList"></ul>
+</div>
+</main>
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
 
-<button id="logoutBtn">Đăng xuất</button>
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+}
 
+function toggleAvatarMenu(e) {
+  e.stopPropagation();
+  document.getElementById("avatarMenu").classList.toggle("active");
+}
+
+document.addEventListener("click", () => {
+  document.getElementById("avatarMenu").classList.remove("active");
+});
+</script>
 <script type="module">
   import { auth, db } from "./js/firebase.js";
   import { logout } from "./js/auth.js";
