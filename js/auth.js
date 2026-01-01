@@ -1,15 +1,7 @@
-import {
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { db } from "./firebase.js";
-import { signOut } from
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+// ===== IMPORT =====
 import { auth } from "./firebase.js";
-export async function logout() {
-  await signOut(auth);
-  window.location.href = "login.html";
-}
+import { db } from "./firebase.js";
+
 import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
@@ -17,10 +9,20 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+import {
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* =======================
-   ĐĂNG NHẬP
-======================= */
+
+// ===== LOGOUT (EXPORT CHO DASHBOARD) =====
+export async function logout() {
+  await signOut(auth);
+  window.location.href = "login.html";
+}
+
+
+// ===== LOGIN =====
 window.login = async function () {
   const fullName = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -40,17 +42,17 @@ window.login = async function () {
 
     const user = userCredential.user;
 
-    // 1️⃣ Cập nhật Auth
+    // 1️⃣ Update displayName (Auth)
     if (!user.displayName && fullName) {
       await updateProfile(user, { displayName: fullName });
     }
 
-    // 2️⃣ Lưu Firestore (QUAN TRỌNG)
+    // 2️⃣ Lưu Firestore
     if (fullName) {
       await setDoc(
         doc(db, "users", user.uid),
         {
-          fullName: fullName,
+          fullName,
           email: user.email,
           updatedAt: new Date()
         },
@@ -67,13 +69,11 @@ window.login = async function () {
   }
 };
 
-/* =======================
-   BẢO VỆ TRANG (OPTIONAL)
-======================= */
+
+// ===== REQUIRE AUTH =====
 export function requireAuth() {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      // 👉 LƯU TRANG ĐANG ĐỨNG
       localStorage.setItem("redirectAfterLogin", window.location.href);
       window.location.href = "login.html";
     }
