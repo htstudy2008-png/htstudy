@@ -15,57 +15,41 @@
 </header>
 
 <main class="content">
-<div class="profile-wrapper">
-  <div class="profile-card">
-    <div class="profile-header">
-      <div class="avatar">👤</div>
-      <div>
-        <h2>Hồ sơ học sinh</h2>
-        <span class="status online">● Đã đăng nhập</span>
-      </div>
-    </div>
-
-    <div class="profile-info">
-      <div class="row">
-        <span class="label">Họ và tên</span>
-        <span class="value" id="fullName">Chưa cập nhật</span>
+  <div class="profile-wrapper">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar">👤</div>
+        <div>
+          <h2>Hồ sơ học sinh</h2>
+          <span class="status online">● Đã đăng nhập</span>
+        </div>
       </div>
 
-      <div class="row">
-        <span class="label">Email</span>
-        <span class="value" id="email">---</span>
+      <div class="profile-info">
+        <div class="row">
+          <span class="label">Họ và tên</span>
+          <span class="value" id="fullName">Chưa cập nhật</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Email</span>
+          <span class="value" id="email">---</span>
+        </div>
+
+        <div class="row">
+          <span class="label">ID học sinh</span>
+          <span class="value mono" id="uid">---</span>
+        </div>
       </div>
 
-      <div class="row">
-        <span class="label">ID học sinh</span>
-        <span class="value mono" id="uid">---</span>
+      <div class="profile-actions">
+        <button id="backBtn">← Quay lại</button>
       </div>
-    </div>
-
-    <div class="profile-actions">
-      <button id="backBtn">← Quay lại</button>
     </div>
   </div>
-</div>
-
 </main>
 
+<!-- ✅ CHỈ LOAD JS -->
 <script type="module" src="js/profile.js"></script>
-<script>
-const backBtn = document.getElementById("backBtn");
-
-backBtn.addEventListener("click", () => {
-  const prev = localStorage.getItem("prevPage");
-
-  if (prev) {
-    localStorage.removeItem("prevPage");
-    window.location.href = prev;
-  } else {
-    // fallback nếu không có (truy cập trực tiếp profile)
-    window.location.href = "index.html";
-  }
-});
-</script>
-
 </body>
 </html>
