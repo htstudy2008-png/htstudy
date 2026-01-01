@@ -2,11 +2,115 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Panel</title>
+  <title>Admin Panel | H&T STUDY</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: #e5e7eb;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      background: rgba(2,6,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    /* ===== MAIN ===== */
+    .container {
+      padding: 32px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ===== STUDENT CARD ===== */
+    .student-card {
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.04)
+      );
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    }
+
+    .student-email {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #93c5fd;
+    }
+
+    /* ===== COURSE CHECKBOX ===== */
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .course-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+    }
+
+    .course-item input {
+      accent-color: #6366f1;
+      cursor: pointer;
+    }
+
+    /* ===== EMPTY ===== */
+    .empty {
+      opacity: 0.7;
+      font-style: italic;
+    }
+  </style>
 </head>
+
 <body>
-<h1>🛠 Admin – Cấp quyền khóa học</h1>
-<div id="studentList"></div>
+
+<header class="header">
+  <div class="logo">🛠 H&T STUDY – Admin</div>
+</header>
+
+<main class="container">
+  <h1>🛠 Cấp quyền khóa học</h1>
+  <div id="studentList"></div>
+</main>
+
 <script type="module">
 import { auth, db } from "./js/firebase.js";
 import { onAuthStateChanged } from
@@ -42,27 +146,35 @@ async function loadData() {
   const box = document.getElementById("studentList");
   box.innerHTML = "";
 
+  if (studentsSnap.empty) {
+    box.innerHTML = `<p class="empty">Chưa có học sinh nào.</p>`;
+    return;
+  }
+
   for (const userDoc of studentsSnap.docs) {
     const u = userDoc.data();
     if (u.role === "admin") continue;
 
     const div = document.createElement("div");
-    div.style.border = "1px solid #ccc";
-    div.style.padding = "10px";
-    div.style.marginBottom = "10px";
+    div.className = "student-card";
 
-    div.innerHTML = `<strong>${u.email}</strong><br>`;
+    div.innerHTML = `
+      <div class="student-email">${u.email}</div>
+      <div class="course-list"></div>
+    `;
+
+    const list = div.querySelector(".course-list");
 
     for (const courseId of courses) {
       const checked = u.courses?.includes(courseId) ? "checked" : "";
 
-      div.innerHTML += `
-        <label>
+      list.innerHTML += `
+        <label class="course-item">
           <input type="checkbox"
             ${checked}
             onchange="toggleCourse('${userDoc.id}', '${courseId}', this.checked)">
           ${courseId}
-        </label><br>
+        </label>
       `;
     }
 
