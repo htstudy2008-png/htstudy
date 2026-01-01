@@ -1,3 +1,9 @@
+import {
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { db } from "./firebase.js";
+
 import { auth } from "./firebase.js";
 import {
   signInWithEmailAndPassword,
@@ -26,12 +32,24 @@ window.login = async function () {
       password
     );
 
-    const user = userCredential.user; // ← 🔥 BẮT BUỘC PHẢI CÓ
+    const user = userCredential.user;
 
+    // 1️⃣ Cập nhật Auth
     if (!user.displayName && fullName) {
-      await updateProfile(user, {
-        displayName: fullName
-      });
+      await updateProfile(user, { displayName: fullName });
+    }
+
+    // 2️⃣ Lưu Firestore (QUAN TRỌNG)
+    if (fullName) {
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          fullName: fullName,
+          email: user.email,
+          updatedAt: new Date()
+        },
+        { merge: true }
+      );
     }
 
     const redirect = localStorage.getItem("redirectAfterLogin");
@@ -42,7 +60,6 @@ window.login = async function () {
     alert(error.code);
   }
 };
-
 
 /* =======================
    BẢO VỆ TRANG (OPTIONAL)
