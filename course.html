@@ -140,15 +140,18 @@
   overflow: hidden;
   max-height: 0;
   opacity: 0;
+  transform: translateY(-6px);
   transition:
-    max-height 0.35s ease,
-    opacity 0.25s ease;
+    max-height 0.45s ease,
+    opacity 0.3s ease,
+    transform 0.35s ease;
   margin-left: 20px;
 }
 
 .sub-lessons.open {
   max-height: 500px; /* đủ lớn cho nhiều bài */
   opacity: 1;
+  transform: translateY(0);
 }
 
   </style>
@@ -244,7 +247,6 @@ onAuthStateChanged(auth, async (user) => {
 const ul = document.createElement("ul");
 ul.className = "lesson-list sub-lessons";
 const chapterParent = chapterDiv.querySelector(".chapter-parent");
-
 chapterParent.addEventListener("click", () => {
   const isOpen = ul.classList.contains("open");
 
@@ -252,6 +254,16 @@ chapterParent.addEventListener("click", () => {
 
   chapterParent.innerText =
     (isOpen ? "▶ " : "▼ ") + chapData.title;
+
+  // 👉 SCROLL MƯỢT TỚI CHƯƠNG
+  if (!isOpen) {
+    setTimeout(() => {
+      chapterParent.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 200);
+  }
 });
 
 
