@@ -129,6 +129,11 @@ function getInitials(name) {
   return name.split(" ").map(w => w[0]).join("").substring(0,2).toUpperCase();
 }
 </script>
+<script>
+function savePrevPage() {
+  localStorage.setItem("prevPage", window.location.href);
+}
+</script>
 
 </body>
 </html>
