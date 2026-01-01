@@ -2,26 +2,155 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Đăng nhập</title>
+  <title>Đăng nhập | H&T STUDY</title>
+
+  <!-- STYLE LOGIN -->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 420px;
+      padding: 28px;
+    }
+
+    .login-card {
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.04)
+      );
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .login-header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .login-header p {
+      margin-top: 6px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: #e5e7eb;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .form-group input::placeholder {
+      color: #cbd5f5;
+      opacity: 0.7;
+    }
+
+    .form-group input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99,102,241,0.3);
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      transition: 0.25s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 30px rgba(124,58,237,0.5);
+    }
+
+    .login-footer {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .login-footer a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>🔐 Đăng nhập</h1>
+  <div class="login-wrapper">
+    <div class="login-card">
 
-<input id="fullName" type="text" placeholder="Họ và tên (chỉ nhập lần đầu)">
+      <div class="login-header">
+        <h1>🔐 Đăng nhập</h1>
+        <p>H&T STUDY – Nền tảng học tập</p>
+      </div>
 
-<br><br>
+      <div class="form-group">
+        <input id="fullName" type="text"
+          placeholder="Họ và tên (chỉ nhập lần đầu)">
+      </div>
 
-<input id="email" type="email" placeholder="Email">
-<br><br>
+      <div class="form-group">
+        <input id="email" type="email" placeholder="Email">
+      </div>
 
-<input id="password" type="password" placeholder="Mật khẩu">
+      <div class="form-group">
+        <input id="password" type="password" placeholder="Mật khẩu">
+      </div>
 
-  <br><br>
-  <button onclick="login()">Đăng nhập</button>
+      <button class="login-btn" onclick="login()">Đăng nhập</button>
 
-  <p><a href="index.html">⬅ Trang chủ</a></p>
+      <div class="login-footer">
+        <a href="index.html">← Quay về trang chủ</a>
+      </div>
 
+    </div>
+  </div>
+
+  <!-- AUTH LOGIC -->
   <script type="module" src="js/auth.js"></script>
 </body>
 </html>
