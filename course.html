@@ -135,6 +135,21 @@
 .lesson-parent {
   user-select: none;
 }
+/* ===== SUB LESSON ANIMATION ===== */
+.sub-lessons {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
+  margin-left: 20px;
+}
+
+.sub-lessons.open {
+  max-height: 500px; /* đủ lớn cho nhiều bài */
+  opacity: 1;
+}
 
   </style>
 </head>
@@ -240,9 +255,9 @@ onAuthStateChanged(auth, async (user) => {
 
   // 👉 SUB LESSON LIST (ẨN BAN ĐẦU)
   const subUl = document.createElement("ul");
+subUl.className = "sub-lessons";
   subUl.style.marginLeft = "20px";
   subUl.style.marginTop = "6px";
-  subUl.style.display = "none";
 
   // 👉 LOAD SUB LESSONS
   const subRef = collection(
@@ -276,12 +291,19 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   // 👉 TOGGLE CLICK
-  li.querySelector(".lesson-parent").addEventListener("click", () => {
-    const isOpen = subUl.style.display === "block";
-    subUl.style.display = isOpen ? "none" : "block";
-    li.querySelector(".lesson-parent").innerText =
-      (isOpen ? "▶ " : "▼ ") + lesData.title;
-  });
+const parent = li.querySelector(".lesson-parent");
+
+parent.addEventListener("click", () => {
+  const isOpen = subUl.classList.contains("open");
+
+  // bật / tắt animation
+  subUl.classList.toggle("open");
+
+  // đổi icon ▶ / ▼
+  parent.innerText =
+    (isOpen ? "▶ " : "▼ ") + lesData.title;
+});
+
 
   li.appendChild(subUl);
   ul.appendChild(li);
