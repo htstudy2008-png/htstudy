@@ -26,7 +26,7 @@ window.login = async function () {
       email,
       password
     );
-
+    const user = userCredential.user;
     // 👤 CẬP NHẬT HỌ TÊN
     if (!user.displayName && fullName) {
   await updateProfile(user, {
