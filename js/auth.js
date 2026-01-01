@@ -12,7 +12,7 @@ import {
 window.login = async function () {
   const fullName = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const password = document.getElementById("password").value;
 
   if (!email || !password) {
     alert("Vui lòng nhập email và mật khẩu");
@@ -20,35 +20,29 @@ window.login = async function () {
   }
 
   try {
-    // 🔐 ĐĂNG NHẬP
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-    const user = userCredential.user;
-    // 👤 CẬP NHẬT HỌ TÊN
+
+    const user = userCredential.user; // ← 🔥 BẮT BUỘC PHẢI CÓ
+
     if (!user.displayName && fullName) {
-  await updateProfile(user, {
-    displayName: fullName
-  });
-}
-
-    // 🔁 QUAY LẠI TRANG TRƯỚC
-    const redirect = localStorage.getItem("redirectAfterLogin");
-
-    if (redirect) {
-      localStorage.removeItem("redirectAfterLogin");
-      window.location.href = redirect;
-    } else {
-      window.location.href = "index.html";
+      await updateProfile(user, {
+        displayName: fullName
+      });
     }
 
+    const redirect = localStorage.getItem("redirectAfterLogin");
+    window.location.href = redirect || "index.html";
+
   } catch (error) {
-    alert("Sai email hoặc mật khẩu");
     console.error(error);
+    alert(error.code);
   }
 };
+
 
 /* =======================
    BẢO VỆ TRANG (OPTIONAL)
