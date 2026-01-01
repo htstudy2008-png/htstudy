@@ -19,17 +19,21 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  // 🔥 LẤY HỒ SƠ TỪ FIRESTORE
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
-
-  if (snap.exists()) {
-    const data = snap.data();
-    fullNameEl.textContent = data.fullName || "Chưa cập nhật";
-  } else {
-    fullNameEl.textContent = "Chưa có hồ sơ";
-  }
-
   emailEl.textContent = user.email;
   uidEl.textContent = user.uid;
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (snap.exists() && snap.data().fullName) {
+      fullNameEl.textContent = snap.data().fullName;
+    } else {
+      fullNameEl.textContent = user.displayName || "Chưa cập nhật";
+    }
+
+  } catch (err) {
+    console.error(err);
+    fullNameEl.textContent = "Lỗi tải dữ liệu";
+  }
 });
