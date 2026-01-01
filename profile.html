@@ -43,7 +43,7 @@
     </div>
 
     <div class="profile-actions">
-      <a href="index.html" class="btn secondary">← Quay lại trang chủ</a>
+      <button id="backBtn">← Quay lại</button>
     </div>
   </div>
 </div>
@@ -51,5 +51,21 @@
 </main>
 
 <script type="module" src="js/profile.js"></script>
+<script>
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+  const prev = localStorage.getItem("prevPage");
+
+  if (prev) {
+    localStorage.removeItem("prevPage");
+    window.location.href = prev;
+  } else {
+    // fallback nếu không có (truy cập trực tiếp profile)
+    window.location.href = "index.html";
+  }
+});
+</script>
+
 </body>
 </html>
