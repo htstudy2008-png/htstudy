@@ -1,8 +1,11 @@
 import { auth } from "./firebase.js";
-import { onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, getDoc } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { db } from "./firebase.js";
 
 const fullNameEl = document.getElementById("fullName");
@@ -16,20 +19,17 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  // 🔥 LẤY HỒ SƠ TỪ FIRESTORE
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (snap.exists()) {
+    const data = snap.data();
+    fullNameEl.textContent = data.fullName || "Chưa cập nhật";
+  } else {
+    fullNameEl.textContent = "Chưa có hồ sơ";
+  }
+
   emailEl.textContent = user.email;
   uidEl.textContent = user.uid;
-
-  try {
-    const userRef = doc(db, "users", user.uid);
-    const snap = await getDoc(userRef);
-
-    if (snap.exists()) {
-      fullNameEl.textContent = snap.data().fullName || "Chưa cập nhật";
-    } else {
-      fullNameEl.textContent = "Chưa có hồ sơ";
-    }
-  } catch (err) {
-    console.error("Lỗi Firestore:", err);
-    fullNameEl.textContent = "Lỗi tải dữ liệu";
-  }
 });
