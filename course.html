@@ -128,6 +128,14 @@
       font-style: italic;
       padding-left: 4px;
     }
+    .lesson-parent:hover {
+  color: #93c5fd;
+}
+
+.lesson-parent {
+  user-select: none;
+}
+
   </style>
 </head>
 
@@ -221,12 +229,22 @@ onAuthStateChanged(auth, async (user) => {
       for (const les of lessonsSnap.docs) {
   const lesData = les.data();
 
-  // 👉 BÀI CHA (BÀI 1)
+  // 👉 LESSON CHA (BÀI 1)
   const li = document.createElement("li");
-  li.innerHTML = `<strong>${lesData.title}</strong>`;
-  ul.appendChild(li);
 
-  // 👉 SUB LESSONS (BÀI 1.1, 1.2)
+  li.innerHTML = `
+    <div class="lesson-parent" style="cursor:pointer; font-weight:600;">
+      ▶ ${lesData.title}
+    </div>
+  `;
+
+  // 👉 SUB LESSON LIST (ẨN BAN ĐẦU)
+  const subUl = document.createElement("ul");
+  subUl.style.marginLeft = "20px";
+  subUl.style.marginTop = "6px";
+  subUl.style.display = "none";
+
+  // 👉 LOAD SUB LESSONS
   const subRef = collection(
     db,
     "courses", courseId,
@@ -234,14 +252,9 @@ onAuthStateChanged(auth, async (user) => {
     "lessons", les.id,
     "subLessons"
   );
-
   const subSnap = await getDocs(subRef);
 
   if (!subSnap.empty) {
-    const subUl = document.createElement("ul");
-    subUl.style.marginLeft = "20px";
-    subUl.style.marginTop = "6px";
-
     for (const sub of subSnap.docs) {
       const subData = sub.data();
       const subLi = document.createElement("li");
@@ -258,10 +271,22 @@ onAuthStateChanged(auth, async (user) => {
 
       subUl.appendChild(subLi);
     }
-
-    li.appendChild(subUl);
+  } else {
+    subUl.innerHTML = `<li class="empty">(Chưa có bài)</li>`;
   }
+
+  // 👉 TOGGLE CLICK
+  li.querySelector(".lesson-parent").addEventListener("click", () => {
+    const isOpen = subUl.style.display === "block";
+    subUl.style.display = isOpen ? "none" : "block";
+    li.querySelector(".lesson-parent").innerText =
+      (isOpen ? "▶ " : "▼ ") + lesData.title;
+  });
+
+  li.appendChild(subUl);
+  ul.appendChild(li);
 }
+
 
       chapterDiv.appendChild(ul);
     } else {
