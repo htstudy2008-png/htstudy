@@ -142,7 +142,12 @@ async function loadData() {
   const studentsSnap = await getDocs(collection(db, "users"));
   const coursesSnap = await getDocs(collection(db, "courses"));
 
-  const courses = coursesSnap.docs.map(d => d.id);
+  // 🔥 MAP COURSE ID → COURSE DATA
+  const coursesMap = {};
+  coursesSnap.forEach(docSnap => {
+    coursesMap[docSnap.id] = docSnap.data();
+  });
+
   const box = document.getElementById("studentList");
   box.innerHTML = "";
 
@@ -165,7 +170,9 @@ async function loadData() {
 
     const list = div.querySelector(".course-list");
 
-    for (const courseId of courses) {
+    // 🔁 DUYỆT QUA COURSE MAP
+    for (const courseId in coursesMap) {
+      const course = coursesMap[courseId];
       const checked = u.courses?.includes(courseId) ? "checked" : "";
 
       list.innerHTML += `
@@ -173,7 +180,10 @@ async function loadData() {
           <input type="checkbox"
             ${checked}
             onchange="toggleCourse('${userDoc.id}', '${courseId}', this.checked)">
-          ${courseId}
+          <strong>${course.title}</strong>
+          <span style="opacity:.7; font-size:12px;">
+            ${course.desc || ""}
+          </span>
         </label>
       `;
     }
