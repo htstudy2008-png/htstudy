@@ -29,6 +29,10 @@
     <div class="avatar-menu" id="avatarMenu">
       <a href="profile.html" id="profileLink" onclick="savePrevPage()">👤 Hồ sơ</a>
   <a href="dashboard.html" id="myCourses">📘 Khóa học của tôi</a>
+      <a href="admin.html" id="adminLink" style="display:none;">
+  🛠 Trang quản trị
+</a>
+
   <hr>
   <a href="#" id="authAction">🔐 Đăng nhập</a>
 </div>
@@ -76,10 +80,15 @@ function toggleSidebar() {
 </script>
 <script type="module">
 import { auth } from "./js/firebase.js";
+import { doc, getDoc } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { db } from "./js/firebase.js";
+
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const profileLink = document.getElementById("profileLink");
 const myCourses = document.getElementById("myCourses");
+const adminLink = document.getElementById("adminLink");
 const loginBtn = document.getElementById("loginBtn");
 const avatarBox = document.getElementById("avatarBox");
 const avatarText = document.getElementById("avatarText");
@@ -88,7 +97,7 @@ const authAction = document.getElementById("authAction");
 let isLoggedIn = false;
 
 /* THEO DÕI TRẠNG THÁI LOGIN */
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
     // ✅ ĐÃ ĐĂNG NHẬP
     isLoggedIn = true;
@@ -102,6 +111,13 @@ onAuthStateChanged(auth, (user) => {
     // 👉 HIỆN MENU SAU LOGIN
     profileLink.style.display = "block";
     myCourses.style.display = "block";
+    // 🔐 KIỂM TRA ROLE ADMIN
+const snap = await getDoc(doc(db, "users", user.uid));
+if (snap.exists() && snap.data().role === "admin") {
+  adminLink.style.display = "block";
+} else {
+  adminLink.style.display = "none";
+}
 
   } else {
     // ❌ CHƯA ĐĂNG NHẬP
@@ -115,7 +131,10 @@ onAuthStateChanged(auth, (user) => {
     // 👉 ẨN MENU CẦN LOGIN
     profileLink.style.display = "none";
     myCourses.style.display = "none";
+    adminLink.style.display = "none";
+
   }
+
 });
 
 
