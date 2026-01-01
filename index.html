@@ -27,7 +27,7 @@
     <div class="avatar-text" id="avatarText"></div>
 
     <div class="avatar-menu" id="avatarMenu">
-  <a href="profile.html" id="profileLink">👤 Hồ sơ</a>
+      <a href="profile.html" id="profileLink" onclick="savePrevPage()">👤 Hồ sơ</a>
   <a href="dashboard.html" id="myCourses">📘 Khóa học của tôi</a>
   <hr>
   <a href="#" id="authAction">🔐 Đăng nhập</a>
@@ -144,6 +144,11 @@ function getInitials(name) {
     .join("")
     .substring(0, 2)
     .toUpperCase();
+}
+</script>
+<script>
+function savePrevPage() {
+  localStorage.setItem("prevPage", window.location.href);
 }
 </script>
 
