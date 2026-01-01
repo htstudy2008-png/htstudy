@@ -100,3 +100,41 @@
 .btn.secondary:hover {
   background: rgba(255,255,255,0.16);
 }
+/* ===== BACK BUTTON ===== */
+#backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  color: #e5e7eb;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* hover */
+#backBtn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* active (click) */
+#backBtn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* icon spacing (mượt hơn) */
+#backBtn::before {
+  content: "←";
+  font-size: 16px;
+  opa
