@@ -105,6 +105,23 @@
 .course-item span {
   display: block;
 }
+/* ===== BACK HOME BUTTON ===== */
+.back-home {
+  margin-right: 16px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #e5e7eb;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-home:hover {
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
 
   </style>
 </head>
@@ -112,8 +129,10 @@
 <body>
 
 <header class="header">
+  <button id="backHomeBtn" class="back-home">← Trang chủ</button>
   <div class="logo">🛠 H&T STUDY – Admin</div>
 </header>
+
 
 <main class="container">
   <h1>🛠 Cấp quyền khóa học</h1>
@@ -210,6 +229,13 @@ window.toggleCourse = async (uid, courseId, checked) => {
       : arrayRemove(courseId)
   });
 };
+  // 🔙 QUAY VỀ TRANG CHỦ
+const backHomeBtn = document.getElementById("backHomeBtn");
+
+backHomeBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
 </script>
 
 </body>
