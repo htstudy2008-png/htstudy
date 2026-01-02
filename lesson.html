@@ -202,10 +202,14 @@
 <script type="module">
 import { auth, db } from "./js/firebase.js";
 import {
-  doc, getDoc
+  doc,
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { onAuthStateChanged } from
-  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const params = new URLSearchParams(window.location.search);
 
@@ -234,9 +238,7 @@ onAuthStateChanged(auth, async (user) => {
     location.href = "dashboard.html";
     return;
   }
-import {
-  collection, getDocs
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 
 const sidebar = document.getElementById("sidebarTree");
 
