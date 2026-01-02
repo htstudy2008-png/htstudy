@@ -460,8 +460,7 @@ for (const chap of chaptersSnap.docs) {
 
   document.getElementById("lessonContent").innerHTML =
     data.content || "<p class='empty'>(Chưa có nội dung)</p>";
-});
-  // ===== VIDEO =====
+    // ===== VIDEO =====
 if (data.videoUrl) {
   const videoBox = document.getElementById("lessonVideo");
   const iframe = document.getElementById("videoFrame");
@@ -478,6 +477,7 @@ if (data.pdfUrl) {
   pdfLink.href = data.pdfUrl;
   pdfBox.style.display = "block";
 }
+});
 
 </script>
 
