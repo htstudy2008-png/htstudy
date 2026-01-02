@@ -325,7 +325,11 @@ onAuthStateChanged(auth, async (user) => {
     location.href = "login.html";
     return;
   }
+const backBtn = document.getElementById("backToCourse");
 
+backBtn.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
   // 🔒 Kiểm tra quyền học
   const userSnap = await getDoc(doc(db, "users", user.uid));
   const courses = userSnap.data()?.courses || [];
@@ -477,11 +481,6 @@ if (data.pdfUrl) {
   pdfLink.href = data.pdfUrl;
   pdfBox.style.display = "block";
 }
-});
-const backBtn = document.getElementById("backToCourse");
-
-backBtn.addEventListener("click", () => {
-  window.location.href = "dashboard.html";
 });
 
 </script>
