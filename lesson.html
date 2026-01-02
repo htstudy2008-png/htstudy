@@ -254,7 +254,7 @@ height: fit-content;
 <body>
 
 <header class="header">
-  <button class="back-btn" onclick="history.back()">← Quay lại</button>
+  <button class="back-btn" id="backToCourse">← Quay lại</button>
   <div class="logo">📘 H&T STUDY</div>
 </header>
 
@@ -477,6 +477,12 @@ if (data.pdfUrl) {
   pdfLink.href = data.pdfUrl;
   pdfBox.style.display = "block";
 }
+});
+const backBtn = document.getElementById("backToCourse");
+
+backBtn.addEventListener("click", () => {
+  window.location.href = `course.html?id=${courseId}&chapter=${chapterId}`;
+
 });
 
 </script>
