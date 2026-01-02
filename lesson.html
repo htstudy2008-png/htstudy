@@ -52,7 +52,6 @@
 
     /* ===== MAIN ===== */
     .container {
-      max-width: 900px;
       margin: auto;
       padding: 32px;
     }
@@ -103,7 +102,7 @@ margin-bottom: 24px;
 .layout {
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: 28px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -114,7 +113,7 @@ margin-bottom: 24px;
   top: 88px; /* dưới header */
   max-height: calc(100vh - 120px);
   overflow-y: auto;
-
+height: fit-content;
   background: linear-gradient(
     135deg,
     rgba(255,255,255,0.10),
@@ -210,6 +209,10 @@ margin-bottom: 24px;
     max-height: none;
   }
 }
+.lesson-wrapper {
+  max-width: 1200px;   /* toàn bộ khối */
+  margin: 0 auto;
+}
 
   </style>
 </head>
@@ -221,7 +224,9 @@ margin-bottom: 24px;
   <div class="logo">📘 H&T STUDY</div>
 </header>
 
-<main class="container layout">
+<main class="container">
+  <div class="lesson-wrapper layout">
+
   <!-- SIDEBAR -->
   <aside class="lesson-sidebar">
     <h3>Nội dung khóa học</h3>
@@ -239,6 +244,7 @@ margin-bottom: 24px;
       <p class="empty">Đang tải nội dung bài học...</p>
     </div>
   </section>
+  </div>
 </main>
 
 
