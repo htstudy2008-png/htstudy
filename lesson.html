@@ -97,6 +97,77 @@
       opacity: 0.7;
       font-style: italic;
     }
+    /* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+
+/* ===== SIDEBAR ===== */
+.lesson-sidebar {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 16px;
+  height: fit-content;
+}
+
+.lesson-sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #93c5fd;
+}
+
+/* ===== TREE ===== */
+.tree-item {
+  margin-bottom: 6px;
+}
+
+.tree-title {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.tree-title:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.tree-children {
+  margin-left: 12px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.tree-children.open {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+/* ===== SUB LESSON ===== */
+.sub-link {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #e5e7eb;
+}
+
+.sub-link:hover {
+  background: rgba(99,102,241,0.25);
+}
+
+.sub-link.active {
+  background: rgba(99,102,241,0.45);
+  font-weight: 600;
+}
+
   </style>
 </head>
 
@@ -107,18 +178,26 @@
   <div class="logo">📘 H&T STUDY</div>
 </header>
 
-<main class="container">
+<main class="container layout">
+  <!-- SIDEBAR -->
+  <aside class="lesson-sidebar">
+    <h3>Nội dung khóa học</h3>
+    <div id="sidebarTree"></div>
+  </aside>
 
-  <div class="lesson-header">
-    <h1 id="lessonTitle">Đang tải...</h1>
-    <div class="lesson-meta" id="lessonMeta"></div>
-  </div>
+  <!-- CONTENT -->
+  <section class="lesson-main">
+    <div class="lesson-header">
+      <h1 id="lessonTitle">Đang tải...</h1>
+      <div class="lesson-meta" id="lessonMeta"></div>
+    </div>
 
-  <div class="lesson-content" id="lessonContent">
-    <p class="empty">Đang tải nội dung bài học...</p>
-  </div>
-
+    <div class="lesson-content" id="lessonContent">
+      <p class="empty">Đang tải nội dung bài học...</p>
+    </div>
+  </section>
 </main>
+
 
 <script type="module">
 import { auth, db } from "./js/firebase.js";
@@ -155,6 +234,92 @@ onAuthStateChanged(auth, async (user) => {
     location.href = "dashboard.html";
     return;
   }
+import {
+  collection, getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const sidebar = document.getElementById("sidebarTree");
+
+const chaptersSnap = await getDocs(
+  collection(db, "courses", courseId, "chapters")
+);
+
+for (const chap of chaptersSnap.docs) {
+  const chapData = chap.data();
+
+  const chapDiv = document.createElement("div");
+  chapDiv.innerHTML = `
+    <div class="tree-title">▶ ${chapData.title}</div>
+    <div class="tree-children"></div>
+  `;
+
+  const chapTitle = chapDiv.querySelector(".tree-title");
+  const chapChildren = chapDiv.querySelector(".tree-children");
+
+  chapTitle.onclick = () => {
+    chapChildren.classList.toggle("open");
+    chapTitle.innerText =
+      (chapChildren.classList.contains("open") ? "▼ " : "▶ ") + chapData.title;
+  };
+
+  const lessonsSnap = await getDocs(
+    collection(db, "courses", courseId, "chapters", chap.id, "lessons")
+  );
+
+  for (const les of lessonsSnap.docs) {
+    const lesData = les.data();
+
+    const lesDiv = document.createElement("div");
+    lesDiv.innerHTML = `
+      <div class="tree-title">▶ ${lesData.title}</div>
+      <div class="tree-children"></div>
+    `;
+
+    const lesTitle = lesDiv.querySelector(".tree-title");
+    const lesChildren = lesDiv.querySelector(".tree-children");
+
+    lesTitle.onclick = () => {
+      lesChildren.classList.toggle("open");
+      lesTitle.innerText =
+        (lesChildren.classList.contains("open") ? "▼ " : "▶ ") + lesData.title;
+    };
+
+    const subSnap = await getDocs(
+      collection(
+        db,
+        "courses", courseId,
+        "chapters", chap.id,
+        "lessons", les.id,
+        "subLessons"
+      )
+    );
+
+    subSnap.forEach(sub => {
+      const a = document.createElement("a");
+      a.className = "sub-link";
+      a.href = `lesson.html?course=${courseId}&chapter=${chap.id}&lesson=${les.id}&sub=${sub.id}`;
+      a.innerText = sub.data().title;
+
+      if (
+        chap.id === chapterId &&
+        les.id === lessonId &&
+        sub.id === subId
+      ) {
+        a.classList.add("active");
+        chapChildren.classList.add("open");
+        lesChildren.classList.add("open");
+        chapTitle.innerText = "▼ " + chapData.title;
+        lesTitle.innerText = "▼ " + lesData.title;
+      }
+
+      lesChildren.appendChild(a);
+    });
+
+    chapChildren.appendChild(lesDiv);
+  }
+
+  sidebar.appendChild(chapDiv);
+}
 
   let lessonRef;
 
