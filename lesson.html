@@ -213,6 +213,40 @@ height: fit-content;
   max-width: 1200px;   /* toàn bộ khối */
   margin: 0 auto;
 }
+/* ===== VIDEO ===== */
+.lesson-video {
+  margin-bottom: 24px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+}
+
+.lesson-video iframe {
+  width: 100%;
+  height: 420px;
+  border: none;
+}
+
+/* ===== PDF ===== */
+.lesson-pdf {
+  margin-bottom: 20px;
+}
+
+.lesson-pdf a {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #93c5fd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.lesson-pdf a:hover {
+  background: rgba(99,102,241,0.25);
+}
 
   </style>
 </head>
@@ -239,6 +273,20 @@ height: fit-content;
       <h1 id="lessonTitle">Đang tải...</h1>
       <div class="lesson-meta" id="lessonMeta"></div>
     </div>
+    <!-- VIDEO -->
+<div id="lessonVideo" class="lesson-video" style="display:none;">
+  <iframe
+    id="videoFrame"
+    src=""
+    allowfullscreen
+    loading="lazy">
+  </iframe>
+</div>
+
+<!-- PDF -->
+<div id="lessonPdf" class="lesson-pdf" style="display:none;">
+  <a id="pdfLink" target="_blank">📄 Tải tài liệu PDF</a>
+</div>
 
     <div class="lesson-content" id="lessonContent">
       <p class="empty">Đang tải nội dung bài học...</p>
@@ -413,6 +461,24 @@ for (const chap of chaptersSnap.docs) {
   document.getElementById("lessonContent").innerHTML =
     data.content || "<p class='empty'>(Chưa có nội dung)</p>";
 });
+  // ===== VIDEO =====
+if (data.videoUrl) {
+  const videoBox = document.getElementById("lessonVideo");
+  const iframe = document.getElementById("videoFrame");
+
+  iframe.src = data.videoUrl;
+  videoBox.style.display = "block";
+}
+
+// ===== PDF =====
+if (data.pdfUrl) {
+  const pdfBox = document.getElementById("lessonPdf");
+  const pdfLink = document.getElementById("pdfLink");
+
+  pdfLink.href = data.pdfUrl;
+  pdfBox.style.display = "block";
+}
+
 </script>
 
 </body>
