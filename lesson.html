@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bài học | H&T STUDY</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: #e5e7eb;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      background: rgba(2,6,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .back-btn {
+      margin-right: 16px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: #e5e7eb;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-1px);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    /* ===== MAIN ===== */
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 32px;
+    }
+
+    .lesson-header {
+      margin-bottom: 28px;
+    }
+
+    .lesson-header h1 {
+      font-size: 28px;
+      margin-bottom: 6px;
+      color: #93c5fd;
+    }
+
+    .lesson-meta {
+      font-size: 14px;
+      opacity: 0.75;
+    }
+
+    /* ===== CONTENT ===== */
+    .lesson-content {
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.04)
+      );
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .lesson-content h2 {
+      color: #e0e7ff;
+      margin-top: 0;
+    }
+
+    .empty {
+      opacity: 0.7;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <button class="back-btn" onclick="history.back()">← Quay lại</button>
+  <div class="logo">📘 H&T STUDY</div>
+</header>
+
+<main class="container">
+
+  <div class="lesson-header">
+    <h1 id="lessonTitle">Đang tải...</h1>
+    <div class="lesson-meta" id="lessonMeta"></div>
+  </div>
+
+  <div class="lesson-content" id="lessonContent">
+    <p class="empty">Đang tải nội dung bài học...</p>
+  </div>
+
+</main>
+
+<script type="module">
+import { auth, db } from "./js/firebase.js";
+import {
+  doc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { onAuthStateChanged } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const params = new URLSearchParams(window.location.search);
+
+const courseId  = params.get("course");
+const chapterId = params.get("chapter");
+const lessonId  = params.get("lesson");
+const subId     = params.get("sub"); // nếu có → bài 1.1
+
+if (!courseId || !chapterId || !lessonId) {
+  alert("Thiếu tham số bài học");
+  location.href = "dashboard.html";
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    location.href = "login.html";
+    return;
+  }
+
+  // 🔒 Kiểm tra quyền học
+  const userSnap = await getDoc(doc(db, "users", user.uid));
+  const courses = userSnap.data()?.courses || [];
+
+  if (!courses.includes(courseId)) {
+    alert("Bạn không có quyền truy cập khóa học này");
+    location.href = "dashboard.html";
+    return;
+  }
+
+  let lessonRef;
+
+  // 👉 BÀI CON (1.1)
+  if (subId) {
+    lessonRef = doc(
+      db,
+      "courses", courseId,
+      "chapters", chapterId,
+      "lessons", lessonId,
+      "subLessons", subId
+    );
+  } 
+  // 👉 BÀI CHA (Bài 1)
+  else {
+    lessonRef = doc(
+      db,
+      "courses", courseId,
+      "chapters", chapterId,
+      "lessons", lessonId
+    );
+  }
+
+  const lessonSnap = await getDoc(lessonRef);
+
+  if (!lessonSnap.exists()) {
+    document.getElementById("lessonContent").innerHTML =
+      `<p class="empty">Không tìm thấy nội dung bài học.</p>`;
+    return;
+  }
+
+  const data = lessonSnap.data();
+
+  document.getElementById("lessonTitle").innerText =
+    data.title || "Bài học";
+
+  document.getElementById("lessonMeta").innerText =
+    subId ? "Bài học chi tiết" : "Bài học chính";
+
+  document.getElementById("lessonContent").innerHTML =
+    data.content || "<p class='empty'>(Chưa có nội dung)</p>";
+});
+</script>
+
+</body>
+</html>
