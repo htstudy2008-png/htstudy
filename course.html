@@ -153,6 +153,15 @@
   opacity: 1;
   transform: translateY(0);
 }
+.open-lesson {
+  font-size: 13px;
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.open-lesson:hover {
+  text-decoration: underline;
+}
 
   </style>
 </head>
@@ -274,10 +283,22 @@ chapterParent.addEventListener("click", () => {
   const li = document.createElement("li");
 
   li.innerHTML = `
-    <div class="lesson-parent" style="cursor:pointer; font-weight:600;">
+  <div class="lesson-parent"
+       style="display:flex; justify-content:space-between; align-items:center; font-weight:600;">
+    
+    <!-- NÚT TOGGLE -->
+    <span class="toggle" style="cursor:pointer;">
       ▶ ${lesData.title}
-    </div>
-  `;
+    </span>
+
+    <!-- LINK VÀO BÀI CHA -->
+    <a class="open-lesson"
+       href="lesson.html?course=${courseId}&chapter=${chap.id}&lesson=${les.id}">
+       Vào bài
+    </a>
+  </div>
+`;
+
 
   // 👉 SUB LESSON LIST (ẨN BAN ĐẦU)
   const subUl = document.createElement("ul");
@@ -301,14 +322,11 @@ subUl.className = "sub-lessons";
       const subLi = document.createElement("li");
 
       subLi.innerHTML = `
-        <a href="lesson.html
-          ?course=${courseId}
-          &chapter=${chap.id}
-          &lesson=${les.id}
-          &sub=${sub.id}">
-          ▸ ${subData.title}
-        </a>
-      `;
+  <a href="lesson.html?course=${courseId}&chapter=${chap.id}&lesson=${les.id}&sub=${sub.id}">
+    ▸ ${subData.title}
+  </a>
+`;
+
 
       subUl.appendChild(subLi);
     }
@@ -317,7 +335,7 @@ subUl.className = "sub-lessons";
   }
 
   // 👉 TOGGLE CLICK
-const parent = li.querySelector(".lesson-parent");
+const parent = li.querySelector(".toggle");
 
 parent.addEventListener("click", () => {
   const isOpen = subUl.classList.contains("open");
