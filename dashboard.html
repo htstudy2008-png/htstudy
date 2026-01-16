@@ -9,7 +9,7 @@
 <body>
 <header class="header">
   <div class="header-left">
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    
     <span class="logo">H&T STUDY</span>
   </div>
 
@@ -30,22 +30,23 @@
     </div>
   </div>
 </header>
-  <div class="sidebar" id="sidebar">
-  <nav>
-    <a href="dashboard.html" class="active">📘 Khóa học của tôi</a>
-    <a href="#">📗 Toán 10</a>
-    <a href="#">📕 Toán 11</a>
-  </nav>
-</div>
-
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="app">
+  <aside class="sidebar">
+    <nav>
+      <a class="active">📘 Tổng quan</a>
+      <a href="dashboard.html">📚 Khóa học của tôi</a>
+      <a>📈 Tiến độ</a>
+      <a>📝 Bài tập</a>
+    </nav>
+  </aside>
 
   <main class="content">
-  <div class="card">
-<h1>📘 Khóa học của bạn</h1>
-<ul id="courseList"></ul>
+    <section class="dashboard">
+      <h1>📘 Khóa học của bạn</h1>
+      <div class="course-grid" id="courseList"></div>
+    </section>
+  </main>
 </div>
-</main>
 <script>
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
