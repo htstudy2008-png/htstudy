@@ -100,3 +100,17 @@ h1 {
   background: rgba(255,255,255,0.18);
   transform: translateY(-1px);
 }
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: calc(100vh - 64px);
+}
+
+.sidebar {
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.content {
+  padding: 48px;
+  overflow-y: auto;
+}
