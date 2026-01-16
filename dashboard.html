@@ -100,13 +100,21 @@ onAuthStateChanged(auth, async (user) => {
     if (!cSnap.exists()) continue;
 
     const c = cSnap.data();
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <strong>${c.title}</strong>
-      <p>${c.desc}</p>
-      <a href="course.html?id=${id}">Vào học</a>
-    `;
-    courseList.appendChild(li);
+    const card = document.createElement("div");
+card.className = "course-card";
+
+card.innerHTML = `
+  <h3>${c.title}</h3>
+  <p>${c.desc || "Không có mô tả"}</p>
+
+  <div class="course-actions">
+    <a href="course.html?id=${id}" class="btn-primary">
+      Tiếp tục học →
+    </a>
+  </div>
+`;
+courseList.appendChild(card);
+
   }
 });
 
