@@ -1,0 +1,15 @@
+:root {
+  --bg-main: #0e0e0e;
+  --bg-header: #0e0e0e;
+  --bg-sidebar: #0a0a0a;
+  --bg-card: #121212;
+
+  --text-main: #e5e5e5;
+  --text-muted: #a1a1aa;
+  --text-title: #f5f5f5;
+
+  --accent: #c7a14a;        /* vàng học thuật */
+  --accent-soft: rgba(199,161,74,0.08);
+
+  --border-soft: rgba(255,255,255,0.06);
+}
