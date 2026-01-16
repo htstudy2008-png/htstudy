@@ -81,9 +81,11 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   isLoggedIn = true;
-  loginBtn.style.display = "none";
-  avatarBox.style.display = "flex";
+  if (loginBtn) loginBtn.style.display = "none";
+if (avatarBox) avatarBox.style.display = "flex";
+if (avatarText)
   avatarText.textContent = getInitials(user.displayName || user.email);
+
 
   // LOAD COURSES
   courseList.innerHTML = "";
