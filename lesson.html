@@ -320,6 +320,7 @@ const courseId  = params.get("course");
 const chapterId = params.get("chapter");
 const lessonId  = params.get("lesson");
 const subId     = params.get("sub"); // nếu có → bài 1.1
+const lessonSequence = [];
 
 if (!courseId || !chapterId || !lessonId) {
   alert("Thiếu tham số bài học");
@@ -409,6 +410,23 @@ for (const chap of chaptersSnap.docs) {
         "subLessons"
       )
     );
+    // ===== BUILD NEXT LESSON ORDER =====
+if (!subSnap.empty) {
+  subSnap.forEach(sub => {
+    lessonSequence.push({
+      chapter: chap.id,
+      lesson: les.id,
+      sub: sub.id
+    });
+  });
+} else {
+  lessonSequence.push({
+    chapter: chap.id,
+    lesson: les.id,
+    sub: null
+  });
+}
+
 
     subSnap.forEach(sub => {
       const a = document.createElement("a");
@@ -436,8 +454,46 @@ for (const chap of chaptersSnap.docs) {
 
   sidebar.appendChild(chapDiv);
 }
+// ===== BUILD FLAT LESSON LIST (CHO NEXT) =====
+const lessonOrder = [];
+
+chaptersSnap.forEach(chap => {
+  // lesson cha
+  lessonOrder.push({
+    type: "lesson",
+    chapter: chap.id,
+    lesson: null,
+    sub: null
+  });
+});
 
   let lessonRef;
+const currentIndex = lessonSequence.findIndex(item =>
+  item.chapter === chapterId &&
+  item.lesson === lessonId &&
+  item.sub === subId
+);
+const nextBtn = document.getElementById("nextLesson");
+
+if (currentIndex !== -1 && currentIndex < lessonSequence.length - 1) {
+  nextBtn.onclick = () => {
+    const next = lessonSequence[currentIndex + 1];
+
+    let url =
+      `lesson.html?course=${courseId}` +
+      `&chapter=${next.chapter}` +
+      `&lesson=${next.lesson}`;
+
+    if (next.sub) {
+      url += `&sub=${next.sub}`;
+    }
+
+    window.location.href = url;
+  };
+} else {
+  nextBtn.innerText = "🎉 Hoàn thành khóa học";
+  nextBtn.disabled = true;
+}
 
   // 👉 BÀI CON (1.1)
   if (subId) {
