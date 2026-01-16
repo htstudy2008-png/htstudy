@@ -10,47 +10,49 @@
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
     <span class="logo">H&T STUDY</span>
   </div>
 
-  <div class="header-right">
-  <a href="index.html" class="home-link">Trang chủ</a>
-
-  <!-- NÚT ĐĂNG NHẬP (CHƯA LOGIN) -->
-  <a href="login.html" id="loginBtn" class="login-btn">Đăng nhập</a>
-
-  <!-- AVATAR (CHỈ HIỆN KHI ĐÃ LOGIN) -->
-  <div class="avatar-box" id="avatarBox" style="display:none;" onclick="toggleAvatarMenu(event)">
-    
-    <!-- AVATAR CHỮ -->
-    <div class="avatar-text" id="avatarText"></div>
-
-    <div class="avatar-menu" id="avatarMenu">
-      <a href="profile.html" id="profileLink" onclick="savePrevPage()">👤 Hồ sơ</a>
-  <a href="dashboard.html" id="myCourses">📘 Khóa học của tôi</a>
-      <a href="admin.html" id="adminLink" style="display:none;">
-  🛠 Trang quản trị
-</a>
-
-  <hr>
-  <a href="#" id="authAction">🔐 Đăng nhập</a>
-</div>
-
+  <div class="header-center">
+    <input type="search" placeholder="Tìm khóa học..." />
   </div>
-</div>
 
+  <div class="header-right">
+    <div class="avatar-box" id="avatarBox" style="display:none;" onclick="toggleAvatarMenu(event)">
+      <div class="avatar-text" id="avatarText"></div>
+
+      <div class="avatar-menu" id="avatarMenu">
+        <a href="profile.html">👤 Hồ sơ</a>
+        <a href="dashboard.html">📘 Khóa học của tôi</a>
+        <a href="admin.html" id="adminLink" style="display:none;">🛠 Trang quản trị</a>
+        <hr>
+        <a href="#" id="authAction">🚪 Đăng xuất</a>
+      </div>
+    </div>
+
+    <a href="login.html" id="loginBtn" class="login-btn">Đăng nhập</a>
+  </div>
 </header>
+<div class="app">
+  <aside class="sidebar">
+    <nav>
+      <a class="active">📘 Tổng quan</a>
+      <a>📗 Khóa học của tôi</a>
+      <a>📕 Lộ trình</a>
+      <a>📝 Bài tập</a>
+      <a>📂 Tài liệu</a>
+      <a>💬 Thảo luận</a>
+    </nav>
+  </aside>
 
-<div class="sidebar" id="sidebar">
-  <nav>
-    <a href="#">📘 Khóa học</a>
-    <a href="#">📗 Toán 10</a>
-    <a href="#">📕 Toán 11</a>
-  </nav>
+  <main class="main">
+    <section class="lesson">
+      <h1>Khóa học của bạn</h1>
+      <p>Chọn khóa học bên trái để bắt đầu.</p>
+    </section>
+  </main>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <main class="content">
   <div class="card">
@@ -59,15 +61,6 @@
   </div>
 </main>
 <script>
-function toggleSidebar() {
-  document.querySelector(".sidebar").classList.toggle("active");
-  document.querySelector(".menu-btn").classList.toggle("active");
-}
-
-  function closeSidebar() {
-    document.getElementById("sidebar").classList.remove("active");
-    document.getElementById("overlay").classList.remove("active");
-  }
 
   function toggleAvatarMenu(e) {
     e.stopPropagation();
