@@ -315,6 +315,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const params = new URLSearchParams(window.location.search);
+const realSubId = subId === "null" ? null : subId;
 
 const courseId  = params.get("course");
 const chapterId = params.get("chapter");
@@ -453,26 +454,26 @@ if (!subSnap.empty) {
   }
 
   sidebar.appendChild(chapDiv);
+  // ===== DEBUG NEXT LESSON (BƯỚC 3) =====
+const realSubId = subId === "null" ? null : subId;
+
+console.log("lessonSequence =", lessonSequence);
+console.log("current =", {
+  chapterId,
+  lessonId,
+  realSubId
+});
+
 }
 // ===== BUILD FLAT LESSON LIST (CHO NEXT) =====
-const lessonOrder = [];
-
-chaptersSnap.forEach(chap => {
-  // lesson cha
-  lessonOrder.push({
-    type: "lesson",
-    chapter: chap.id,
-    lesson: null,
-    sub: null
-  });
-});
 
   let lessonRef;
 const currentIndex = lessonSequence.findIndex(item =>
   item.chapter === chapterId &&
   item.lesson === lessonId &&
-  item.sub === subId
+  item.sub === realSubId
 );
+
 const nextBtn = document.getElementById("nextLesson");
 
 if (currentIndex !== -1 && currentIndex < lessonSequence.length - 1) {
@@ -484,7 +485,7 @@ if (currentIndex !== -1 && currentIndex < lessonSequence.length - 1) {
       `&chapter=${next.chapter}` +
       `&lesson=${next.lesson}`;
 
-    if (next.sub) {
+    if (next.sub !== null) {
       url += `&sub=${next.sub}`;
     }
 
@@ -494,6 +495,7 @@ if (currentIndex !== -1 && currentIndex < lessonSequence.length - 1) {
   nextBtn.innerText = "🎉 Hoàn thành khóa học";
   nextBtn.disabled = true;
 }
+
 
   // 👉 BÀI CON (1.1)
   if (subId) {
