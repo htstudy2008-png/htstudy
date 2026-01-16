@@ -291,6 +291,12 @@ height: fit-content;
     <div class="lesson-content" id="lessonContent">
       <p class="empty">Đang tải nội dung bài học...</p>
     </div>
+    <div class="lesson-footer">
+  <button id="nextLesson" class="back-btn">
+    Bài tiếp theo →
+  </button>
+</div>
+
   </section>
   </div>
 </main>
@@ -328,8 +334,9 @@ onAuthStateChanged(auth, async (user) => {
 const backBtn = document.getElementById("backToCourse");
 
 backBtn.addEventListener("click", () => {
-  window.location.href = "dashboard.html";
+  window.location.href = `course.html?id=${courseId}`;
 });
+
   // 🔒 Kiểm tra quyền học
   const userSnap = await getDoc(doc(db, "users", user.uid));
   const courses = userSnap.data()?.courses || [];
@@ -360,10 +367,16 @@ for (const chap of chaptersSnap.docs) {
   const chapChildren = chapDiv.querySelector(".tree-children");
 
   chapTitle.onclick = () => {
-    chapChildren.classList.toggle("open");
-    chapTitle.innerText =
-      (chapChildren.classList.contains("open") ? "▼ " : "▶ ") + chapData.title;
-  };
+  document
+    .querySelectorAll(".tree-children.open")
+    .forEach(el => {
+      if (el !== chapChildren) el.classList.remove("open");
+    });
+
+  chapChildren.classList.toggle("open");
+  chapTitle.innerText =
+    (chapChildren.classList.contains("open") ? "▼ " : "▶ ") + chapData.title;
+};
 
   const lessonsSnap = await getDocs(
     collection(db, "courses", courseId, "chapters", chap.id, "lessons")
