@@ -65,7 +65,7 @@
     .course-header h1 {
       font-size: 30px;
       margin-bottom: 8px;
-      color: #93c5fd;
+      color: #e5d08a;
     }
 
     .course-header p {
@@ -118,8 +118,8 @@
     }
 
     .lesson-list a:hover {
-      background: rgba(99,102,241,0.25);
-      border-color: #6366f1;
+      background: rgba(199,161,74,0.12);
+      border-color: rgba(199,161,74,0.5);
       transform: translateX(4px);
     }
 
@@ -257,22 +257,17 @@ const ul = document.createElement("ul");
 ul.className = "lesson-list sub-lessons";
 const chapterParent = chapterDiv.querySelector(".chapter-parent");
 chapterParent.addEventListener("click", () => {
-  const isOpen = ul.classList.contains("open");
+  document
+    .querySelectorAll(".lesson-list.sub-lessons.open")
+    .forEach(el => {
+      if (el !== ul) el.classList.remove("open");
+    });
 
+  const isOpen = ul.classList.contains("open");
   ul.classList.toggle("open");
 
   chapterParent.innerText =
     (isOpen ? "▶ " : "▼ ") + chapData.title;
-
-  // 👉 SCROLL MƯỢT TỚI CHƯƠNG
-  if (!isOpen) {
-    setTimeout(() => {
-      chapterParent.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }, 200);
-  }
 });
 
 
