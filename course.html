@@ -182,7 +182,7 @@
 <body>
 
 <header class="header">
-  <button class="back-btn" onclick="history.back()">← Quay lại</button>
+  <button class="back-btn" id="backToDashboard">← Quay lại</button>
   <div class="logo">📘 H&T STUDY</div>
 </header>
 
@@ -364,6 +364,11 @@ parent.addEventListener("click", () => {
     chapterBox.appendChild(chapterDiv);
   }
 });
+</script>
+<script>
+document.getElementById("backToDashboard").onclick = () => {
+  window.location.href = "dashboard.html";
+};
 </script>
 
 </body>
