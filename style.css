@@ -172,3 +172,68 @@ body {
   border-right: 1px solid var(--border-light);
   padding: 16px;
 }
+/* ===== INDEX PAGE ===== */
+.index-page .hero {
+  text-align: center;
+  padding: 72px 32px;
+}
+
+.index-page .hero h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.index-page .hero p {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  color: var(--text-muted);
+  font-size: 17px;
+}
+
+/* SECTION */
+.section {
+  max-width: 960px;
+  margin: 64px auto;
+  padding: 0 32px;
+}
+
+.section h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.section-muted {
+  background: #f9fafb;
+  padding: 48px 32px;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.section-center {
+  text-align: center;
+}
+
+/* FEATURES */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.feature-item {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* STEPS */
+.steps {
+  max-width: 640px;
+  margin-left: 20px;
+}
+
+.steps li {
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
