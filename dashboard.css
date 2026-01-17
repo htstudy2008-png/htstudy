@@ -146,3 +146,11 @@ h1 {
   color: #e5d08a;
   text-decoration: none;
 }
+/* ===== FIX DASHBOARD NO SIDEBAR ===== */
+.app {
+  display: block;
+}
+
+.sidebar {
+  display: none;
+}
