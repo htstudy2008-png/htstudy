@@ -481,9 +481,11 @@ body {
   user-select: none;
 }
 .app {
+  display: block;
+}
+.app.has-sidebar {
   display: grid;
   grid-template-columns: 260px 1fr;
-  height: calc(100vh - 64px);
 }
 
 .sidebar {
