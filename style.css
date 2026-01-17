@@ -293,3 +293,8 @@ body {
   color: var(--text-muted);
   font-size: 14px;
 }
+.academic-notes {
+  margin-top: 12px;
+  line-height: 1.8;
+  color: #374151;
+}
