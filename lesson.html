@@ -315,14 +315,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const params = new URLSearchParams(window.location.search);
-const realSubId = subId === "null" ? null : subId;
 
 const courseId  = params.get("course");
 const chapterId = params.get("chapter");
 const lessonId  = params.get("lesson");
-const subId     = params.get("sub"); // nếu có → bài 1.1
+const subId     = params.get("sub"); // 👈 KHAI BÁO TRƯỚC
 const lessonSequence = [];
 
+const realSubId = subId === "null" || subId === undefined ? null : subId;
 if (!courseId || !chapterId || !lessonId) {
   alert("Thiếu tham số bài học");
   location.href = "dashboard.html";
