@@ -226,6 +226,11 @@ toggle.onclick = () => {
   localStorage.setItem("theme", next);
 };
 </script>
+<script>
+function toggleSidebar() {
+  document.querySelector(".app").classList.toggle("collapsed");
+}
+</script>
 
 </body>
 </html>
