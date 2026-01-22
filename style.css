@@ -409,3 +409,15 @@ body {
   --shadow-sm: none;
   --shadow-md: none;
 }
+/* ===== STEP 10: COLLAPSIBLE SIDEBAR ===== */
+.app.collapsed {
+  grid-template-columns: 80px 1fr;
+}
+
+.app.collapsed .sidebar {
+  padding: 8px;
+}
+
+.app.collapsed .sidebar span {
+  display: none;
+}
