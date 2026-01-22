@@ -211,6 +211,21 @@ function savePrevPage() {
   localStorage.setItem("prevPage", window.location.href);
 }
 </script>
+<script>
+const toggle = document.getElementById("themeToggle");
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme) {
+  document.body.setAttribute("data-theme", savedTheme);
+}
+
+toggle.onclick = () => {
+  const current = document.body.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  document.body.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+};
+</script>
 
 </body>
 </html>
