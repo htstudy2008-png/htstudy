@@ -2,12 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>H&T STUDY</title>
   <link rel="stylesheet" href="css/theme-academic.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="index-page">
-
+<div class="app has-sidebar">
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
@@ -18,12 +19,14 @@
   </div>
 
   <div class="header-right">
+      <button id="themeToggle" class="btn-primary">🌙</button>
+  <button onclick="toggleSidebar()">☰</button>
     <div class="avatar-box" id="avatarBox" style="display:none;" onclick="toggleAvatarMenu(event)">
       <div class="avatar-text" id="avatarText"></div>
 
       <div class="avatar-menu" id="avatarMenu">
-        <a href="profile.html">👤 Hồ sơ</a>
-        <a href="dashboard.html">📘 Khóa học của tôi</a>
+        <a href="profile.html" id="profileLink">👤 Hồ sơ</a>
+        <a href="dashboard.html" id="myCourses">📘 Khóa học của tôi</a>
         <a href="admin.html" id="adminLink" style="display:none;">🛠 Trang quản trị</a>
         <hr>
         <a href="#" id="authAction">🚪 Đăng xuất</a>
@@ -32,13 +35,10 @@
 
     <a href="login.html" id="loginBtn" class="login-btn">Đăng nhập</a>
   </div>
-  <button id="themeToggle" class="btn-primary">🌙</button>
-  <button onclick="toggleSidebar()">☰</button>
-<div class="card skeleton" style="height:120px"></div>
 
 </header>
 <main class="content index-academic">
-
+<div class="card skeleton" style="height:120px"></div>
   <div class="academic-layout">
 
     <!-- CỘT CHÍNH -->
@@ -209,11 +209,7 @@ function getInitials(name) {
     .toUpperCase();
 }
 </script>
-<script>
-function savePrevPage() {
-  localStorage.setItem("prevPage", window.location.href);
-}
-</script>
+
 <script>
 const toggle = document.getElementById("themeToggle");
 const savedTheme = localStorage.getItem("theme");
@@ -234,6 +230,6 @@ function toggleSidebar() {
   document.querySelector(".app").classList.toggle("collapsed");
 }
 </script>
-
+</div>
 </body>
 </html>
