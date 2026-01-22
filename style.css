@@ -390,3 +390,22 @@ body {
   --shadow-sm: 0 2px 6px rgba(15,23,42,0.06);
   --shadow-md: 0 12px 28px rgba(15,23,42,0.12);
 }
+/* ===== STEP 8: DARK MODE SYSTEM ===== */
+[data-theme="dark"] {
+  --bg-main: linear-gradient(180deg, #020617 0%, #020617 100%);
+  --bg-card: #020617;
+  --bg-header: rgba(2,6,23,0.8);
+  --bg-sidebar: #020617;
+
+  --text-main: #e5e7eb;
+  --text-muted: #94a3b8;
+
+  --border-light: #1e293b;
+
+  --accent: #60a5fa;
+  --accent-strong: #3b82f6;
+  --accent-soft: #1e293b;
+
+  --shadow-sm: none;
+  --shadow-md: none;
+}
