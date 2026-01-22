@@ -117,6 +117,7 @@
   <footer class="academic-footer">
   <p>© 2026 H&T STUDY – Nền tảng học tập trực tuyến</p>
 </footer>
+</div> <!-- end .app -->
 <script>
 
   function toggleAvatarMenu(e) {
@@ -183,7 +184,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
 /* XỬ LÝ CLICK ĐĂNG NHẬP / ĐĂNG XUẤT */
-authAction.addEventListener("click", async (e) => {
+if (authAction) authAction.addEventListener("click", async (e) => {
   e.preventDefault();
 
   if (isLoggedIn) {
@@ -217,19 +218,18 @@ const savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
   document.body.setAttribute("data-theme", savedTheme);
 }
-
-toggle.onclick = () => {
-  const current = document.body.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  document.body.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
-};
+if (toggle) {
+  toggle.onclick = () => {
+    const current = document.body.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    document.body.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  };
 </script>
 <script>
 function toggleSidebar() {
   document.querySelector(".app").classList.toggle("collapsed");
 }
 </script>
-</div>
 </body>
 </html>
